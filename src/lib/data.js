@@ -2,6 +2,14 @@ import fs from 'fs'
 import path from 'path'
 import * as jsonc from 'jsonc-parser';
 
+
+// 从飞书读取 categories 数据
+export function getCategoriesFromFeishu(locale) {
+
+
+
+}
+
 // 读取 categories 数据
 export function getCategories(locale) {
     const categoriesPath = path.join(process.cwd(), 'data', 'json', locale, 'tools', 'category.jsonc');

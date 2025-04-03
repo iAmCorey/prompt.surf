@@ -10,6 +10,7 @@ import GoogleAdsenseScript from "@/components/ads/GoogleAdsenseScript";
 import { ThemeProvider } from "next-themes"
 import { DM_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { appConfig } from '@/lib/appConfig';
 
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -22,16 +23,19 @@ const sansFont = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: 'DevToolset: Open-Source Database-free Developer Tools Navigator',
-    template: '%s | DevToolset'
+    default: appConfig.title,
+    template: '%s | ' + appConfig.title
   },
-  description: 'Explore Every Essential Developer Tools You Need For Your Development Journey',
-  authors: { name: 'DevToolset', url: 'https://DevToolset.net/' },
-  keywords: 'developer tools, dev tools, develop tool',
+  description: appConfig.description,
+  authors: { 
+    name: appConfig.author, 
+    url: appConfig.domain 
+  },
+  keywords: appConfig.keywords,
   alternates: {
-    canonical: "https://DevToolset.net/", languages: {
-      "en-US": "https://DevToolset.net/en/",
-      "zh-CN": "https://DevToolset.net/zh/",
+    canonical: appConfig.domain, languages: {
+      "en-US": appConfig.domain + "en/",
+      "zh-CN": appConfig.domain + "zh/",
     }
   },
   icons: [

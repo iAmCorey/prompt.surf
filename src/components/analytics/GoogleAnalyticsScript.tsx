@@ -1,43 +1,22 @@
 "use client";
 
-import Script from "next/script";
+import { GoogleAnalytics as NextGoogleAnalytics } from "@next/third-parties/google";
+import React from "react";
 
-const googleAnalyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!;
-
+/**
+ * Google Analytics
+ *
+ * https://analytics.google.com
+ */
 export function GoogleAnalyticsScript() {
-  return (
-    <Script
-      async
-      src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-      onLoad={() => {
-        if (typeof window === "undefined") {
-          return;
-        }
+  if (process.env.NODE_ENV !== "production") {
+    return null;
+  }
 
-        (window as any).dataLayer = (window as any).dataLayer || [];
+  const analyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
+  if (!analyticsId) {
+    return null;
+  }
 
-        function gtag() {
-          (window as any).dataLayer.push(arguments);
-        }
-        // @ts-expect-error gtag is only improted in the browser
-        gtag("js", new Date());
-        // @ts-expect-error gtag is only improted in the browser
-        gtag("config", googleAnalyticsId);
-      }}
-    />
-  );
-}
-
-export function useGoogleAnalytics() {
-  const trackEvent = (event: string, data?: Record<string, unknown>) => {
-    if (typeof window === "undefined" || !(window as any).gta) {
-      return;
-    }
-
-    (window as any).gta("event", event, data);
-  };
-
-  return {
-    trackEvent,
-  };
+  return <NextGoogleAnalytics gaId={analyticsId} />;
 }

@@ -1,17 +1,12 @@
 🌍 *[English](README.md) ∙ [简体中文](README.zh.md)*
 
-# DevToolset
+# Prompt.surf
 
-[DevToolset](https://DevToolset.net/) is an open-source database-free developer tools navigator
+[Prompt.surf](https://prompt.surf/) is an open-source collection of AI prompts
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=iamcorey/devtoolset&type=Date)](https://star-history.com/#iamcorey/devtoolset&Date)
-
-
-## Preview
-
-![DevToolset](https://img.magicbox.tools/screenshot_img/devtoolset.png?version=081702)
+[![Star History Chart](https://api.star-history.com/svg?repos=iamcorey/prompt.surf&type=Date)](https://star-history.com/#iamcorey/prompt.surf&Date)
 
 ## Features
 
@@ -38,43 +33,37 @@
 
 ---
 
+## Adding New Prompts to Prompt.surf
 
-## Adding New Developer Tools to DevToolset
+Want to add your prompt to Prompt.surf?
 
-Wanna add your site to DevToolset? 
+### Two ways to submit your prompt
+1. Submit your prompt via [GitHub Issues](https://github.com/iamcorey/prompt.surf/issues) for a free dofollow link.
 
-### Two ways to submit your site
-1. Submit your site via [GitHub Issues](https://github.com/iamcorey/devtoolset/issues) for a free dofollow link.
-
-2. Or you can also submit your site by change the jsonc file in the `data/json/[locale]` folder and create a pull request.
-(Please read our [Submission Guide](/data/md/add-new-developer-tools.md) for details on how to request inclusion)
+2. Or you can also submit your prompt by changing the jsonc file in the `data/json/[locale]` folder and create a pull request.
+(Please read our [Submission Guide](/data/md/add-new-prompt.md) for details on how to request inclusion)
 
 ### Submit format
 
 Follow the format below:
-- [ ] **name**: Provide a brief title describing the tool or data you added.
-- [ ] **description**: Clearly state what tool or data was added and in which category.
-- [ ] **url**: Provide the url of the tool.
-- [ ] **category**: Provide the category of the tool.
-- [ ] **tags**: Provide serval tags of the tool. (3 tags at most)
-- [ ] **icon_url**: Provide the url of the icon of the tool. (Optional) If not provided, the icon will be generated automatically.
-
+- [ ] **name**: Provide a brief title describing the prompt.
+- [ ] **description**: Clearly state what prompt was added and in which category.
+- [ ] **url**: Provide the URL of the prompt (if applicable).
+- [ ] **category**: Provide the category of the prompt.
+- [ ] **tags**: Provide several tags for the prompt. (3 tags at most)
+- [ ] **icon_url**: Provide the URL of the icon of the prompt. (Optional) If not provided, the icon will be generated automatically.
 
 ### Additional Notes
-- **Developer Tools Only**: Please do not submit tools unrelated to development.
+- **AI Prompts Only**: Please do not submit content unrelated to AI prompts.
 - **No Affiliate Links**: Do not include affiliate links.
 - **No Spam**: Do not include spam.
-- **Accessible URL**: Ensure the url is accessible.
+- **Accessible URL**: Ensure the URL is accessible.
 
-
-
-## Deploy your own DevToolset
+## Deploy your own Prompt.surf
 
 ### Deploy on Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FiAmCorey%2Fdevtoolset&project-name=devtoolset&repository-name=devtoolset&external-id=https%3A%2F%2Fgithub.com%2FiAmCoreye%2Fdevtoolset%2Ftree%2Fmain)
-
-
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FiAmCorey%2Fprompt.surf&project-name=prompt.surf&repository-name=prompt.surf&external-id=https%3A%2F%2Fgithub.com%2FiAmCoreye%2Fprompt.surf%2Ftree%2Fmain)
 
 ## Prerequisites
 
@@ -88,8 +77,8 @@ Follow the format below:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/iAmCorey/devtoolset
-   cd devtoolset
+   git clone https://github.com/iAmCorey/prompt.surf
+   cd prompt.surf
    ```
 
 2. Install dependencies:
@@ -124,7 +113,7 @@ Follow the format below:
    yarn run dev
    ```
 
-Visit `http://localhost:3000` to see your DevToolset instance running locally.
+Visit `http://localhost:3000` to see your Prompt.surf instance running locally.
 
 ## Deployment
 
@@ -142,11 +131,11 @@ Visit `http://localhost:3000` to see your DevToolset instance running locally.
    - `DOMAIN`(localhost / YOUR_DOMAIN.tld)
 4. Deploy the project.
 
-For a detailed deployment guide, please refer to our [Installation and Deployment Guide](/data/md/deploy-own-devtoolset.md).
+For a detailed deployment guide, please refer to our [Installation and Deployment Guide](/data/md/deploy-own-prompt-surf.md).
 
 ## Usage
-### Mannually
-- Tools: Change the jsonc file in the `data/json/[locale]` folder.
+### Manually
+- Prompts: Change the jsonc file in the `data/json/[locale]` folder.
 - Articles: Change the markdown file in the `data/md` folder.
 
 ### By The Admin Panel
@@ -156,25 +145,22 @@ For a detailed deployment guide, please refer to our [Installation and Deploymen
 - Manage resources in the admin panel.
 - All changes are automatically synced with your GitHub repository.
 
-
 ---
-
 
 ## Changelog
 See [CHANGELOG.md](./CHANGELOG.md) for a detailed list of changes.
 
 ## Contributing
 
-We welcome contributions to DevToolset! Please read our [Contributing Guide](/data/md/add-new-developer-tools.md) for details on our code of conduct and the process for submitting pull requests.
+We welcome contributions to Prompt.surf! Please read our [Contributing Guide](/data/md/add-new-prompt.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 
-DevToolset is open-source software licensed under the [MIT license](./LICENSE).
-
+Prompt.surf is open-source software licensed under the [MIT license](./LICENSE).
 
 ## Acknowledgements
 
-DevToolset is built with the following tools and libraries:
+Prompt.surf is built with the following tools and libraries:
 - [GitBase](https://gitbase.app/) 
 - [Favicon Stealer](https://github.com/iAmCorey/favicon-stealer) 
 - [Next.js](https://nextjs.org/)
@@ -189,14 +175,13 @@ If you want a secondary development, want to customize this project or want to c
 
 Feel free to reach out if you have any questions or suggestions:
 
-- **Email:** [iamcoreychiu+devtoolset@gmail.com](mailto:iamcoreychiu+devtoolset@gmail.com)
+- **Email:** [iamcoreychiu+prompt.surf@gmail.com](mailto:iamcoreychiu+prompt.surf@gmail.com)
 - **GitHub:** [iamcorey](https://github.com/iamcorey)
 - **jike:** `阿邱很行` [阿邱很行](https://okjk.co/mFe3NR)
 - **Wechat:** `iAmCor3y`(Please add a note when sending a friend request)
 <img src="https://img.magicbox.tools/screenshot_img/iamcoreywechat.jpg" alt="加我为好友" style="height: 200px; width: 200px">
 
-
-## Support 
+## Support
 
 If you find this project helpful, please consider giving it a ⭐ on GitHub!
 
