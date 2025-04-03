@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 215 20.2% 65.1%;
+ 
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+   
+    --background: 220 10% 15%; /* Dark, desaturated grayish background */
+    --foreground: 0 0% 90%; /* Light gray foreground */
+
+    --card: 220 10% 18%; /* Slightly lighter dark card */
+    --card-foreground: 0 0% 90%; /* Light gray card foreground */
+ 
+    --popover: 220 10% 18%; /* Slightly lighter dark popover */
+    --popover-foreground: 0 0% 90%; /* Light gray popover foreground */
+
+    --primary: 220 5% 40%; /* Desaturated dark gray primary */
+    --primary-foreground: 0 0% 95%; /* Lighter gray primary foreground */
+ 
+    --secondary: 220 5% 30%; /* Muted, desaturated gray secondary */
+    --secondary-foreground: 0 0% 85%; /* Slightly darker light gray secondary foreground */
+ 
+    --muted: 220 5% 25%; /* Darker muted background */
+    --muted-foreground: 0 0% 80%; /* Muted foreground in lighter gray */
+ 
+    --accent: 220 5% 35%; /* Desaturated, dark gray accent */
+    --accent-foreground: 0 0% 90%; /* Light gray accent foreground */
+ 
+    --destructive: 0 100% 40%; /* Darker, more muted red for destructive */
+    --destructive-foreground: 0 0% 95%; /* Lighter gray foreground for destructive */
+
+    --border: 220 10% 25%; /* Darker gray border */
+    --input: 220 10% 25%; /* Darker gray input background */
+    --ring: 220 5% 40%; /* Darker, more muted gray ring */
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
