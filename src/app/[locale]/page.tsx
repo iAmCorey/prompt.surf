@@ -3,11 +3,13 @@ import React, { Suspense } from 'react'; // 确保导入 React
 import { getSortedPostsData } from '@/lib/posts'
 import { getCategories } from '@/lib/data';
 
-import { ToolsList } from '@/components/ToolsList';
+import { PromptList } from '@/components/PromptList';
 import { ArticleList } from '@/components/ArticleList'
 
 import { Search } from '@/components/Search';
-import {getTranslations, getLocale} from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
+import { getPrompts } from '@/lib/data';
+
 
 export async function generateMetadata() {
   const t = await getTranslations('home');
@@ -18,30 +20,34 @@ export async function generateMetadata() {
 }
 
 
-type categoryType = { 
-  name: string; 
-  src: string; 
+type categoryType = {
+  name: string;
+  src: string;
   description: string;
-  link: string; 
+  link: string;
 }
 
 
 export default async function Home() {
   const locale = await getLocale();
   const t = await getTranslations('home');
-  
+
   // categories data
   const categories = getCategories(locale);
   console.log('categories: ', categories)
 
   const allPostsData = getSortedPostsData().slice(0, 6)
-  
-  // deployment
+
+
+  const promptsData = await getPrompts();
+
+  console.log('promptsData: ', promptsData)
+
 
   return (
-    <div className="container mx-auto py-12 space-y-16 ">
+    <div className="container mx-auto py-12 space-y-16 max-w-7xl ">
       <section className="flex flex-col items-center justify-center text-center space-y-6">
-        <h1 className="mx-auto max-w-3xl text-3xl font-bold lg:text-6xl tracking-tighter">
+        <h1 className="mx-auto max-w-2xl text-3xl font-bold lg:text-6xl tracking-tighter">
           <span className="inline-block">{t("h1")}</span>
         </h1>
         <h2 className="text-2xl tracking-tight sm:text-3xl md:text-3xl lg:text-3xl max-w-3xl mx-auto">{t("h2")}</h2>
@@ -49,10 +55,8 @@ export default async function Home() {
           <Search />
         </div>
       </section>
-      
-      {categories.map((category: categoryType, index: React.Key | null | undefined) => (
-        <ToolsList key={index} category={category} locale={locale} />
-      ))}
+
+      <PromptList prompts={promptsData} />
       <div className='border-t'></div>
       <Suspense fallback={<div>Loading...</div>}>
         <ArticleList articles={allPostsData} />
