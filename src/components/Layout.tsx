@@ -3,13 +3,10 @@ import React from 'react'; // 确保导入 React
 import { Navigation } from './Navigation'
 import { Footer } from '@/components/Footer'
 import { getCategories } from '@/lib/data';
-import { getLocale } from 'next-intl/server';
 
-// @ts-expect-error
-export async function Layout({ children }) {
-  const locale = await getLocale();
+export async function Layout({ children }: { children: React.ReactNode }) {
   // categories data
-  const categories: { name: string, src: string, description: string, link: string }[] = getCategories(locale);
+  const categories = await getCategories();
 
   return (
     <div className="min-h-screen bg-background font-sans antialiased">

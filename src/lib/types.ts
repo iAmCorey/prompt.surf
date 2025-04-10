@@ -1,14 +1,13 @@
-// 飞书分类数据
-export type Category = {
+// 分类数据
+export type CategoryType = {
   id: string;
-  name: string;
-  link: string;
-  src: string;
-  description: string;
+  category_id: string;
+  category: string;
+  slug: string;
 }
 
 // 提示词项目
-export type PromptItem = {
+export type PromptType = {
   prompt_id: string;
   category: string[];
   tag: string[];
@@ -23,13 +22,6 @@ export type PromptItem = {
   slug: string;
 }
 
-// JSON文件中的分类结构
-export type CategoryJson = {
-  name: string;
-  link: string;
-  src: string;
-  description?: string;
-}
 
 // 工具项目结构
 export type ToolItem = {

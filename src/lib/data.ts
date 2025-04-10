@@ -5,11 +5,10 @@ import { Client, AppType, Domain } from '@larksuiteoapi/node-sdk';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import {
-  Category,
-  PromptItem,
-  CategoryJson,
+  PromptType,
   ToolItem,
-  FeishuResponse
+  FeishuResponse,
+  CategoryType
 } from '@/lib/types';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,9 +26,10 @@ const client = new Client({
 
 
 // 从飞书读取 categories 数据
-export async function getCategories2(): Promise<Category[] | null> {
+// https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tbl4EyVxYOhuJt8x&view=vewEBIpUHH
+export async function getCategories(): Promise<CategoryType[] | null> {
   try {
-    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_PROMPT_TABLE_ID || '');
+    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_CATEGORY_TABLE_ID || '');
     if (!result?.data?.items) {
       console.error('无法获取飞书数据或数据格式不正确');
       return null;
@@ -40,11 +40,10 @@ export async function getCategories2(): Promise<Category[] | null> {
       const fields = item.fields;
       return {
         id: item.record_id,
-        name: String(fields.name || ''),
-        link: String(fields.link || ''),
-        src: String(fields.src || ''),
-        description: String(fields.description || ''),
-      };
+        category_id: fields.category_id || '',
+        category: fields.category || '',
+        slug: fields.slug || '',
+      } as CategoryType;
     });
 
     return categories;
@@ -55,7 +54,7 @@ export async function getCategories2(): Promise<Category[] | null> {
 }
 
 // 从飞书读取prompt
-export async function getPrompts(): Promise<PromptItem[] | null> {
+export async function getPrompts(): Promise<PromptType[] | null> {
   try {
     const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_PROMPT_TABLE_ID || '');
     if (!result?.data?.items) {
@@ -63,8 +62,8 @@ export async function getPrompts(): Promise<PromptItem[] | null> {
       return null;
     }
 
-    // 转换数据格式为工具列表
-    const tools = result.data.items.map(item => {
+    // 转换数据格式为prompts
+    const prompts = result.data.items.map(item => {
       const fields = item.fields;
       return {
         prompt_id: item.record_id,
@@ -79,10 +78,10 @@ export async function getPrompts(): Promise<PromptItem[] | null> {
         create_time: fields.create_time || '',
         update_time: fields.update_time || '',
         slug: fields.slug || '',
-      } as PromptItem;
+      } as PromptType;
     });
 
-    return tools;
+    return prompts;
   } catch (error) {
     console.error('处理飞书工具数据失败:', error);
     return null;
@@ -110,33 +109,6 @@ async function exportTable(app_token: string, table_id: string): Promise<FeishuR
 
 
 
-// 读取 categories 数据
-export function getCategories(locale: string): CategoryJson[] {
-  const categoriesPath = path.join(BASE_PATH, 'data', 'json', locale, 'tools', 'category.jsonc');
-  const categoriesText = fs.readFileSync(categoriesPath, 'utf8');
-  const categories = jsonc.parse(categoriesText) as CategoryJson[];
-
-  if (typeof categories === 'string') {
-    // 如果解析后仍是字符串，可能需要二次解析
-    try {
-      return jsonc.parse(categories) as CategoryJson[];
-    } catch (error) {
-      console.error('二次解析失败:', error);
-      return [] as CategoryJson[]; // 如果二次解析失败，返回空数组
-    }
-  }
-  return categories;
-}
-
-// 读取category数据
-export function getCategoryByLink(link: string, locale: string): CategoryJson | undefined {
-  const categoriesPath = path.join(BASE_PATH, 'data', 'json', locale, 'tools', 'category.jsonc');
-  const categoriesText = fs.readFileSync(categoriesPath, 'utf8');
-  const categories = jsonc.parse(categoriesText) as CategoryJson[];
-  console.log('categories: ', categories);
-  return categories.find(category => category.link === link);
-}
-
 // 读取 datalist 数据
 export function getDataList(src: string, locale: string): ToolItem[] {
   const dataPath = path.join(BASE_PATH, 'data', 'json', locale, 'tools', src);
@@ -156,35 +128,6 @@ export function getDataList(src: string, locale: string): ToolItem[] {
   return dataList;
 }
 
-// 根据关键词搜索数据
-export function searchDataByKeyword(keyword: string, locale: string): ToolItem[] | null {
-  let result: ToolItem[] = []
-
-  const categories = getCategories(locale);
-
-  if (!categories || categories.length === 0) return null;
-
-  for (const category of categories) {
-    if (category.name.toLowerCase() == keyword.toLowerCase()) {
-      const dataList = getDataList(category.src, locale)
-      result = result.concat(dataList);
-    } else {
-      const dataList = getDataList(category.src, locale)
-
-      for (const item of dataList) {
-        if (item.name.toLowerCase().includes(keyword.toLowerCase())) {
-          // search by name
-          result.push(item)
-        } else if (item.tags && item.tags.some((tag: string) => tag.toLowerCase() == keyword.toLowerCase())) {
-          // search by tags
-          result.push(item)
-        }
-      }
-    }
-  }
-
-  return result;
-}
 
 // 读取更新日志
 export function getChangelog(): Record<string, unknown> {

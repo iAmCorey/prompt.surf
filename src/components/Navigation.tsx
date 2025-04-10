@@ -20,19 +20,11 @@ import {
 import { ThemeModeButton } from "@/components/ThemeModeButton";
 import { LocaleButton } from "@/components/LocaleButton";
 import {useTranslations} from 'next-intl';
-type categoriesType = {
-  name: string,
-  src: string,
-  description: string,
-  link: string
-}
-
-type navigationProp = {
-  categories: categoriesType[]
-}
+import { CategoryType } from '@/lib/types';
 
 
-export const Navigation = ({ categories }: navigationProp ) => {
+
+export const Navigation = ({ categories }: { categories: CategoryType[] | null } ) => {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('navigation');
@@ -95,7 +87,6 @@ export const Navigation = ({ categories }: navigationProp ) => {
   })
   ListItem.displayName = "ListItem"
   return (
-
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
@@ -119,30 +110,32 @@ export const Navigation = ({ categories }: navigationProp ) => {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger className={cn('font-medium', '/category' === pathname && "font-extrabold")}>{t('categoryBtn')}</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-3 lg:w-[600px] ">
-                      {categories.map((category) => (
+                {categories && categories.length > 0 && (
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className={cn('font-medium', '/category' === pathname && "font-extrabold")}>{t('categoryBtn')}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid grid-cols-1 w-[250px] md:w-[400px] gap-3 p-4 md:grid-cols-2">
+                        {categories.map((category) => (
+                          <ListItem
+                            key={category.category_id}
+                            title={category.category}
+                            href={`/category/${category.category_id}`}
+                            className='capitalize'
+                          >
+                            {category.category}
+                          </ListItem>
+                        ))}
                         <ListItem
-                          key={category.name}
-                          title={category.name}
-                          href={`/category/${category.link}`}
-                          className='capitalize'
+                          title={t('moreCategoryBtn')}
+                          href={'/category'}
+                          className='capitalize border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'
                         >
-                          {category.description}
+                          {t('moreCategoryDescription')}
                         </ListItem>
-                      ))}
-                      <ListItem
-                        title={t('moreCategoryBtn')}
-                        href={'/category'}
-                        className='capitalize border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'
-                      >
-                        {t('moreCategoryDescription')}
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
+                      </ul>
+                      </NavigationMenuContent>
+                  </NavigationMenuItem>
+                )}
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className={cn('font-medium', '/article' === pathname && "font-extrabold")}>
                     {t('articleBtn')}

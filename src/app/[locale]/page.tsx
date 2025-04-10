@@ -25,15 +25,16 @@ export default async function Home() {
   const t = await getTranslations('home');
 
   // categories data
-  const categories = getCategories(locale);
+  const categories = await getCategories();
   console.log('categories: ', categories)
 
   const allPostsData = getSortedPostsData().slice(0, 6)
 
 
   const promptsData = await getPrompts();
-
-  console.log('promptsData: ', promptsData)
+  if (promptsData) {
+    console.log('promptsData: ', promptsData.length)
+  }
 
 
   return (
@@ -43,9 +44,9 @@ export default async function Home() {
           <span className="inline-block">{t("h1")}</span>
         </h1>
         <h2 className="text-2xl tracking-tight sm:text-3xl md:text-3xl lg:text-3xl max-w-3xl mx-auto">{t("h2")}</h2>
-        <div className='w-full px-2 pt-10 lg:w-1/2'>
+        {/* <div className='w-full px-2 pt-10 lg:w-1/2'>
           <Search />
-        </div>
+        </div> */}
       </section>
 
       {promptsData && promptsData.length > 0 && (

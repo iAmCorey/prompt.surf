@@ -5,10 +5,10 @@ import {
   Card,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge";
-import { type PromptItem } from '@/lib/types';
+import { type PromptType } from '@/lib/types';
 import { CustomIcon } from "@/components/shared/CustomIcon";
 
-export const PromptCard = ({ prompt }: { prompt: PromptItem }) => {
+export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
   return (
     <Card className='max-w-sm overflow-hidden border border-gray-100 rounded-xl flex flex-col'>
       <div className='px-4 pt-4 pb-2 relative flex-none'>

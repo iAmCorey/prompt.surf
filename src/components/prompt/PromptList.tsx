@@ -2,13 +2,13 @@
 import React from 'react'; // 确保导入 React
 import { Link } from "@/lib/i18n";
 import { useTranslations } from 'next-intl';
-import { type PromptItem } from '@/lib/types';
+import { type PromptType } from '@/lib/types';
 import { PromptCard } from '@/components/prompt/PromptCard';
 
 
 type PromptListPageProps = {
   showMoreLink?: boolean,
-  prompts?: PromptItem[]
+  prompts?: PromptType[]
 }
 
 
@@ -31,7 +31,7 @@ const PromptList = ({ prompts = [], showMoreLink = true }: PromptListPageProps) 
         )}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {prompts.map((prompt: PromptItem) => (
+        {prompts.map((prompt: PromptType) => (
           <PromptCard key={prompt.prompt_id} prompt={prompt} />
         ))}
       </div>
