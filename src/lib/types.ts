@@ -6,6 +6,22 @@ export type CategoryType = {
   slug: string;
 }
 
+// 标签数据
+export type TagType = {
+  id: string;
+  tag_id: string;
+  tag: string;
+  slug: string;
+}
+
+// 模型数据
+export type ModelType = {
+  id: string;
+  model_id: string;
+  model: string;
+  slug: string;
+}
+
 // 提示词项目
 export type PromptType = {
   prompt_id: string;
@@ -23,14 +39,6 @@ export type PromptType = {
 }
 
 
-// 工具项目结构
-export type ToolItem = {
-  name: string;
-  description: string;
-  url: string;
-  icon: string;
-  tags: string[];
-}
 
 // 飞书API返回的数据结构
 export type FeishuResponse = {

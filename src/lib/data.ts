@@ -6,9 +6,10 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import {
   PromptType,
-  ToolItem,
   FeishuResponse,
-  CategoryType
+  CategoryType,
+  TagType,
+  ModelType
 } from '@/lib/types';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +26,7 @@ const client = new Client({
 
 
 
-// 从飞书读取 categories 数据
+// 从飞书读取 category 数据
 // https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tbl4EyVxYOhuJt8x&view=vewEBIpUHH
 export async function getCategories(): Promise<CategoryType[] | null> {
   try {
@@ -53,8 +54,66 @@ export async function getCategories(): Promise<CategoryType[] | null> {
   }
 }
 
+// 从飞书读取 tag 数据
+// https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblBiTB4ITtjZBxQ&view=vewEBIpUHH
+export async function getTags(): Promise<TagType[] | null> {
+  try {
+    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_TAG_TABLE_ID || '');
+    console.log(result);
+    if (!result?.data?.items) {
+      console.error('无法获取飞书数据或数据格式不正确');
+      return null;
+    }
+
+    // 转换数据格式为categories
+    const tags = result.data.items.map(item => {
+      const fields = item.fields;
+      return {
+        id: item.record_id,
+        tag_id: fields.tag_id || '',
+        tag: fields.tag || '',
+        slug: fields.slug || '',
+      } as TagType;
+    });
+
+    return tags;
+  } catch (error) {
+    console.error('处理飞书数据失败:', error);
+    return null;
+  }
+}
+
+// 从飞书读取 model 数据
+// https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblJvCthQSdUACEf&view=vewEBIpUHH
+export async function getModels(): Promise<ModelType[] | null> {
+  try {
+    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_MODEL_TABLE_ID || '');
+    if (!result?.data?.items) {
+      console.error('无法获取飞书数据或数据格式不正确');
+      return null;
+    }
+
+    // 转换数据格式为models
+    const models = result.data.items.map(item => {
+      const fields = item.fields;
+      return {
+        id: item.record_id,
+        model_id: fields.model_id || '',
+        model: fields.model || '',
+        slug: fields.slug || '',
+      } as ModelType;
+    });
+
+    return models;
+  } catch (error) {
+    console.error('处理飞书数据失败:', error);
+    return null;
+  }
+}
+
 // 从飞书读取prompt
-export async function getPrompts(): Promise<PromptType[] | null> {
+// https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblEv0PjREXSDuSu&view=vewEBIpUHH
+export async function getLatestPrompts(): Promise<PromptType[] | null> {
   try {
     const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_PROMPT_TABLE_ID || '');
     if (!result?.data?.items) {
@@ -108,25 +167,6 @@ async function exportTable(app_token: string, table_id: string): Promise<FeishuR
 }
 
 
-
-// 读取 datalist 数据
-export function getDataList(src: string, locale: string): ToolItem[] {
-  const dataPath = path.join(BASE_PATH, 'data', 'json', locale, 'tools', src);
-  const dataListText = fs.readFileSync(dataPath, 'utf8');
-  const dataList = jsonc.parse(dataListText) as ToolItem[];
-
-  if (typeof dataList === 'string') {
-    // 如果解析后仍是字符串，可能需要二次解析
-    try {
-      return jsonc.parse(dataList) as ToolItem[];
-    } catch (error) {
-      console.error('二次解析失败:', error);
-      return [] as ToolItem[]; // 如果二次解析失败，返回空数组
-    }
-  }
-
-  return dataList;
-}
 
 
 // 读取更新日志

@@ -2,7 +2,7 @@ import './globals.css';
 import '@radix-ui/themes/styles.css';
 import React from 'react';
 import { Inter } from 'next/font/google'
-import { Layout } from '@/components/Layout';
+import { Layout } from '@/components/layout/Layout';
 import { Metadata } from 'next'
 import { GoogleAnalyticsScript } from "@/components/analytics/GoogleAnalyticsScript";
 import { PlausibleAnalyticsScript } from "@/components/analytics/PlausibleAnalyticsScript";

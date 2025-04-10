@@ -40,7 +40,7 @@ export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
           {prompt.tag && prompt.tag.length > 0 && (
             <div className='flex flex-wrap'>
               {prompt.tag.slice(0, 3).map((tag, i) => (
-                <Badge key={i} variant="secondary" className='rounded-sm text-xs px-1 bg-transparent hover:bg-gray-100 text-gray-600 transition-colors'>
+                <Badge key={i} variant="secondary" className='rounded-sm text-xs px-1 bg-transparent hover:bg-transparent text-muted-foreground transition-colors link-underline'>
                   #{tag}
                 </Badge>
               ))}
@@ -49,7 +49,7 @@ export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
         </div>
         <div>
           {prompt.author && (
-            <Badge variant="secondary" className='rounded-sm text-xs px-1 hover:bg-gray-100 text-gray-600 transition-colors'>
+            <Badge variant="secondary" className='rounded-sm text-xs px-1 text-muted-foreground transition-colors'>
               {prompt.author}
             </Badge>
           )}

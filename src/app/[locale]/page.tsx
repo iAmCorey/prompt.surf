@@ -1,14 +1,13 @@
 // pages/index.js
 import React, { Suspense } from 'react'; // 确保导入 React
 import { getSortedPostsData } from '@/lib/posts'
-import { getCategories } from '@/lib/data';
 
 import { PromptList } from '@/components/prompt/PromptList';
 import { ArticleList } from '@/components/ArticleList'
 
-import { Search } from '@/components/Search';
+import { Search } from '@/components/home/Search';
 import { getTranslations, getLocale } from 'next-intl/server';
-import { getPrompts } from '@/lib/data';
+import { getLatestPrompts, getCategories } from '@/lib/data';
 
 
 export async function generateMetadata() {
@@ -31,7 +30,7 @@ export default async function Home() {
   const allPostsData = getSortedPostsData().slice(0, 6)
 
 
-  const promptsData = await getPrompts();
+  const promptsData = await getLatestPrompts();
   if (promptsData) {
     console.log('promptsData: ', promptsData.length)
   }

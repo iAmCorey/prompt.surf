@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
-import IconImage from "../../public/favicon.svg";
+import IconImage from "../../../public/favicon.svg";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -20,11 +20,17 @@ import {
 import { ThemeModeButton } from "@/components/ThemeModeButton";
 import { LocaleButton } from "@/components/LocaleButton";
 import {useTranslations} from 'next-intl';
-import { CategoryType } from '@/lib/types';
+import { CategoryType, ModelType, TagType } from '@/lib/types';
+import { NAVIGATION_MODEL_COUNT } from '@/lib/const';
+import { CustomIcon } from '../shared/CustomIcon';
+type NavigationProps = {
+  categories: CategoryType[] | null,
+  tags: TagType[] | null,
+  models: ModelType[] | null,
+}
 
 
-
-export const Navigation = ({ categories }: { categories: CategoryType[] | null } ) => {
+export const Navigation = ({ categories, tags, models }: NavigationProps ) => {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('navigation');
@@ -40,6 +46,14 @@ export const Navigation = ({ categories }: { categories: CategoryType[] | null }
     {
       label: t('categoryBtn'),
       href: "/category",
+    },
+    {
+      label: t('tagBtn'),
+      href: "/tag",
+    },
+    {
+      label: t('modelBtn'),
+      href: "/model",
     },
     {
       label: t('articleBtn'),
@@ -86,6 +100,34 @@ export const Navigation = ({ categories }: { categories: CategoryType[] | null }
     )
   })
   ListItem.displayName = "ListItem"
+
+const ModelItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="flex flex-row items-center gap-2">
+            <CustomIcon name={title || ''} />
+            <div className="text-sm font-medium leading-none">{title}</div>
+          </div>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  )
+})
+ModelItem.displayName = "ModelItem"
+
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
@@ -132,6 +174,56 @@ export const Navigation = ({ categories }: { categories: CategoryType[] | null }
                         >
                           {t('moreCategoryDescription')}
                         </ListItem>
+                      </ul>
+                      </NavigationMenuContent>
+                  </NavigationMenuItem>
+                )}
+                {tags && tags.length > 0 && (
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className={cn('font-medium', '/tag' === pathname && "font-extrabold")}>{t('tagBtn')}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid grid-cols-1 w-[250px] md:w-[400px] gap-3 p-4 md:grid-cols-2">
+                        {tags.map((tag) => (
+                          <ListItem
+                            key={tag.tag_id}
+                            title={tag.tag}
+                            href={`/tag/${tag.tag_id}`}
+                            className='capitalize'
+                          >
+                            {tag.tag}
+                          </ListItem>
+                        ))}
+                        <ListItem
+                          title={t('moreTagBtn')}
+                          href={'/tag'}
+                          className='capitalize border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'
+                        >
+                          {t('moreTagDescription')}
+                        </ListItem>
+                      </ul>
+                      </NavigationMenuContent>
+                  </NavigationMenuItem>
+                )}
+                {models && models.length > 0 && (
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className={cn('font-medium', '/model' === pathname && "font-extrabold")}>{t('modelBtn')}</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid grid-cols-1 w-[250px] md:w-[400px] gap-2 p-4 md:grid-cols-2">
+                        {models.slice(0, NAVIGATION_MODEL_COUNT).map((model) => (
+                          <ModelItem
+                            key={model.model_id}
+                            title={model.model}
+                            href={`/model/${model.model_id}`}
+                            className='capitalize'
+                          />
+                        ))}
+                        <ModelItem
+                          title={t('moreModelBtn')}
+                          href={'/model'}
+                          className='capitalize border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'
+                        >
+                          {t('moreModelDescription')}
+                        </ModelItem>
                       </ul>
                       </NavigationMenuContent>
                   </NavigationMenuItem>

@@ -1,0 +1,2 @@
+export const LATEST_PROMPTS_COUNT = 12;
+export const NAVIGATION_MODEL_COUNT = 15;
