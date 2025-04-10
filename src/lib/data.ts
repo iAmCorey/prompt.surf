@@ -70,7 +70,7 @@ export async function getPrompts(): Promise<PromptItem[] | null> {
         prompt_id: item.record_id,
         category: fields.category || [],
         tag: fields.tag || [],
-        client: fields.client || [],
+        model: fields.model || [],
         title: fields.title || '',
         prompt: fields.prompt || '',
         author: fields.author || '',

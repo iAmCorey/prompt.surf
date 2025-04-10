@@ -3,7 +3,7 @@ import React, { Suspense } from 'react'; // 确保导入 React
 import { getSortedPostsData } from '@/lib/posts'
 import { getCategories } from '@/lib/data';
 
-import { PromptList } from '@/components/PromptList';
+import { PromptList } from '@/components/prompt/PromptList';
 import { ArticleList } from '@/components/ArticleList'
 
 import { Search } from '@/components/Search';
@@ -17,14 +17,6 @@ export async function generateMetadata() {
     title: t("meta_title"),
     description: t("meta_description"),
   };
-}
-
-
-type categoryType = {
-  name: string;
-  src: string;
-  description: string;
-  link: string;
 }
 
 
@@ -56,7 +48,11 @@ export default async function Home() {
         </div>
       </section>
 
-      <PromptList prompts={promptsData} />
+      {promptsData && promptsData.length > 0 && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <PromptList prompts={promptsData} />
+        </Suspense>
+      )}
       <div className='border-t'></div>
       <Suspense fallback={<div>Loading...</div>}>
         <ArticleList articles={allPostsData} />

@@ -12,7 +12,7 @@ export type PromptItem = {
   prompt_id: string;
   category: string[];
   tag: string[];
-  client: string[];
+  model: string[];
   title: string;
   prompt: string;
   author: string;
