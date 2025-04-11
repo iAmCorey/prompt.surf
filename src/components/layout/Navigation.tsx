@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
-import IconImage from "../../../public/favicon.svg";
+import IconImage from "../../../public/logo.png";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -77,7 +77,7 @@ export const Navigation = ({ categories, models }: NavigationProps ) => {
   }, [pathname]);
 
   
-  const size = 30;
+  const size = 28;
   const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     React.ComponentPropsWithoutRef<"a">
@@ -138,7 +138,7 @@ ModelItem.displayName = "ModelItem"
           <Link href="/" className="flex items-center space-x-1">
             <Image
               src={IconImage}
-              className="block mr-1"
+              className="block"
               width={size}
               height={size}
               alt="Prompt.surf"
@@ -165,7 +165,7 @@ ModelItem.displayName = "ModelItem"
                           <ListItem
                             key={category.category_id}
                             title={category.category}
-                            href={`/category/${category.category_id}`}
+                            href={`/category/${category.slug}`}
                             className='capitalize'
                           >
                             {category.slug}
@@ -191,7 +191,7 @@ ModelItem.displayName = "ModelItem"
                           <ModelItem
                             key={model.model_id}
                             title={model.model}
-                            href={`/model/${model.model_id}`}
+                            href={`/model/${model.slug}`}
                             className='capitalize'
                           />
                         ))}

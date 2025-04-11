@@ -1,6 +1,6 @@
 // category/page.tsx
 import React from 'react'; // 确保导入 React
-import { getCategories } from '@/lib/data';
+import { getAllCategories } from '@/lib/data';
 
 import { CategoryList } from '@/components/ToolsList';
 
@@ -13,7 +13,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import {getTranslations, getLocale} from 'next-intl/server';
-import {useTranslations} from 'next-intl';
 
 
 export async function generateMetadata() {
@@ -27,7 +26,7 @@ export async function generateMetadata() {
 export default async function Category() {
   const locale = await getLocale();
   // categories data
-  const categories = getCategories(locale);
+  const categories = await getAllCategories();
   console.log('categories: ', categories)
 
   const t = await getTranslations('category');

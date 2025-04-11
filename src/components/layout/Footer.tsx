@@ -2,12 +2,12 @@
 import { Link } from "@/lib/i18n";
 import React from 'react'; // 确保导入 React
 import Image from "next/image";
-import IconImage from "../../../public/favicon.svg";
+import IconImage from "../../../public/logo.png";
 import {useTranslations} from 'next-intl';
 
 export function Footer() {
   const t = useTranslations('footer');
-  const size = 30;
+  const size = 28;
   return (
     <footer className="bg-gray-100 dark:bg-gray-900 text-muted-foreground border-t">
       <div className="flex flex-col justify-center items-center max-w-7xl text-center mx-auto py-12 px-4 lg:text-start">
@@ -17,7 +17,7 @@ export function Footer() {
               <Link href="/" className="flex items-center space-x-1">
                 <Image
                   src={IconImage}
-                  className="block opacity-80 mr-1"
+                  className="block opacity-80"
                   width={size}
                   height={size}
                   alt="Prompt.surf"

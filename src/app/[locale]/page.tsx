@@ -7,7 +7,7 @@ import { ArticleList } from '@/components/ArticleList'
 
 import { Search } from '@/components/home/Search';
 import { getTranslations, getLocale } from 'next-intl/server';
-import { getLatestPrompts, getCategories, getFeaturedPrompts, getPromptsByCategory } from '@/lib/data';
+import { getLatestPrompts, getAllCategories, getFeaturedPrompts, getPromptsByCategory } from '@/lib/data';
 import { 
   FEATURED_PROMPTS_COUNT, 
   LATEST_PROMPTS_COUNT, 
@@ -26,7 +26,7 @@ export async function generateMetadata() {
 async function getHomeData() {
   try {
     const [categories, promptsData, featuredPromptsData] = await Promise.all([
-      getCategories(),
+      getAllCategories(),
       getLatestPrompts(LATEST_PROMPTS_COUNT),
       getFeaturedPrompts(FEATURED_PROMPTS_COUNT)
     ]);
@@ -60,7 +60,7 @@ async function getHomeData() {
 export default async function Home() {
   const locale = await getLocale();
   console.log('locale: ', locale)
-  
+
   const t = await getTranslations('home');
   const { promptsData, featuredPromptsData, categoryPrompts, allPostsData } = await getHomeData();
 

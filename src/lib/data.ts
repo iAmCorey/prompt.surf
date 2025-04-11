@@ -250,7 +250,14 @@ export async function searchPrompts(keyword: string): Promise<PromptType[] | nul
 
 // 从飞书读取 category 数据
 // https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tbl4EyVxYOhuJt8x&view=vewEBIpUHH
-export async function getCategories(): Promise<CategoryType[] | null> {
+export async function getCategories(params: {
+  slug?: string;
+  category_id?: string;
+  page_size?: number;
+  page_token?: string;
+  sort_field?: string;
+  sort_desc?: boolean;
+}): Promise<CategoryType[] | null> {
   const app_token = process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '';
   const table_id = process.env.NEXT_PUBLIC_FEISHU_CATEGORY_TABLE_ID || '';
 
@@ -260,16 +267,56 @@ export async function getCategories(): Promise<CategoryType[] | null> {
   }
 
   const searchParams = {
-    page_size: 500,
+    page_size: params?.page_size || 500,
+    page_token: params?.page_token,
   }
+
+  interface FilterCondition {
+    field_name: string;
+    operator: "contains" | "is" | "isNot" | "doesNotContain" | "isEmpty" | "isNotEmpty" | "isGreater" | "isGreaterEqual" | "isLess" | "isLessEqual" | "like" | "in";
+    value?: string[];
+  }
+
+  // 构建筛选条件
+  const conditions: FilterCondition[] = [];
+
+  // 添加各种筛选条件
+  if (params?.slug) {
+    conditions.push({
+      field_name: 'slug',
+      operator: 'contains',
+      value: [params.slug]
+    });
+  }
+
+  if (params?.category_id) {
+    conditions.push({
+      field_name: 'category_id',
+      operator: 'contains',
+      value: [params?.category_id]
+    });
+  }
+
+
+  // 构建完整的filter结构
+  const filter = conditions.length > 0 ? {
+    conjunction: "and" as const,
+    conditions: conditions,
+  } : undefined;
+
+  // 构建排序条件
+  const sort = [
+    {
+      field_name: params?.sort_field || 'priority',
+      desc: params?.sort_desc !== undefined ? params?.sort_desc : true
+    }
+  ];
+
   const searchData = {
-    "sort": [
-      {
-        "field_name": "priority",
-        "desc": true
-      }
-    ],
-  }
+    filter,
+    sort
+  };
+
 
   try {
     const result = await client.bitable.v1.appTableRecord.search({
@@ -304,6 +351,16 @@ export async function getCategories(): Promise<CategoryType[] | null> {
     console.error('处理飞书数据失败:', error);
     return null;
   }
+}
+
+export async function getAllCategories(): Promise<CategoryType[] | null> {
+  return getCategories({});
+}
+
+
+export async function getCategoryBySlug(slug: string): Promise<CategoryType | null> {
+  const categories = await getCategories({ slug });
+  return categories && categories.length > 0 ? categories[0] : null;
 }
 
 // 从飞书读取 tag 数据
