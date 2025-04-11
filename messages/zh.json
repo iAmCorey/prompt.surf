@@ -3,7 +3,9 @@
     "meta_title": "DevToolset: 开源、无数据库架构的开发者工具资源导航平台",
     "meta_description": "在这里找到您在开发旅程中需要的每一种开发者工具",
     "h2": "开源、无数据库架构的开发者工具资源导航平台",
-    "description": "在这里找到您在开发旅程中需要的每一种开发者工具"
+    "description": "在这里找到您在开发旅程中需要的每一种开发者工具",
+    "featured_prompts": "精选提示词",
+    "latest_prompts": "最新提示词"
   },
   "category": {
     "meta_title": "分类",
@@ -78,9 +80,9 @@
     "support": "支持",
     "copyright": "版权所有。"
   },
-  "toolsList": {
+  "promptList": {
     "more": "更多",
-    "tools": "工具"
+    "prompts": "提示词"
   },
   "articleList": {
     "h2": "文章",

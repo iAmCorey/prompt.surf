@@ -6,10 +6,13 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import {
   PromptType,
-  FeishuResponse,
+  FeishuPromptResponseType,
   CategoryType,
   TagType,
-  ModelType
+  ModelType,
+  FeishuCategoryResponseType,
+  FeishuTagResponseType,
+  FeishuModelResponseType
 } from '@/lib/types';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,14 +28,262 @@ const client = new Client({
 });
 
 
+export async function getLatestPrompts(): Promise<PromptType[] | null> {
+  return getPromptByParams({
+    page_size: 500,
+    sort_field: 'create_time',
+    sort_desc: true
+  });
+}
+
+export async function getFeaturedPrompts(): Promise<PromptType[] | null> {
+  return getPromptByParams({
+    feature: "是",
+    page_size: 500,
+    sort_field: 'create_time',
+    sort_desc: true
+  });
+}
+
+// 从飞书读取prompt
+// https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblEv0PjREXSDuSu&view=vewEBIpUHH
+export async function getPromptByParams(params: {
+  slug?: string;
+  prompt_id?: string;
+  category?: string[];
+  tag?: string[];
+  model?: string[];
+  keyword?: string;
+  feature?: string;
+  page_size?: number;
+  page_token?: string;
+  sort_field?: string;
+  sort_desc?: boolean;
+}): Promise<PromptType[] | null> {
+  const app_token = process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '';
+  const table_id = process.env.NEXT_PUBLIC_FEISHU_PROMPT_TABLE_ID || '';
+
+  if (!app_token || !table_id) {
+    console.error('app_token or table_id is not set');
+    return null;
+  }
+
+  const searchParams = {
+    page_size: params.page_size || 500,
+    page_token: params.page_token,
+  }
+
+  interface FilterCondition {
+    field_name: string;
+    operator: "contains" | "is" | "isNot" | "doesNotContain" | "isEmpty" | "isNotEmpty" | "isGreater" | "isGreaterEqual" | "isLess" | "isLessEqual" | "like" | "in";
+    value?: string[];
+  }
+
+  // 构建筛选条件
+  const conditions: FilterCondition[] = [];
+  let keywordFilter;
+
+  // 添加各种筛选条件
+  if (params.slug) {
+    conditions.push({
+      field_name: 'slug',
+      operator: 'contains',
+      value: [params.slug]
+    });
+  }
+
+  if (params.prompt_id) {
+    conditions.push({
+      field_name: 'prompt_id',
+      operator: 'contains',
+      value: [params.prompt_id]
+    });
+  }
+
+  if (params.category && params.category.length > 0) {
+    conditions.push({
+      field_name: 'category',
+      operator: 'contains',
+      value: params.category
+    });
+  }
+
+  if (params.tag && params.tag.length > 0) {
+    conditions.push({
+      field_name: 'tag',
+      operator: 'contains',
+      value: params.tag
+    });
+  }
+
+  if (params.model && params.model.length > 0) {
+    conditions.push({
+      field_name: 'model',
+      operator: 'contains',
+      value: params.model
+    });
+  }
+
+  // 添加feature筛选条件
+  if (params.feature) {
+    conditions.push({
+      field_name: 'feature',
+      operator: 'is',
+      value: [params.feature]
+    });
+  }
+
+  // 处理关键词搜索
+  if (params.keyword) {
+    keywordFilter = {
+      conjunction: "or" as const,
+      conditions: [
+        {
+          field_name: 'title',
+          operator: 'contains' as const,
+          value: [params.keyword]
+        },
+        {
+          field_name: 'prompt',
+          operator: 'contains' as const,
+          value: [params.keyword]
+        }
+      ]
+    };
+  }
+
+  // 构建完整的filter结构
+  const filter = conditions.length > 0 || keywordFilter ? {
+    conjunction: "and" as const,
+    conditions: conditions,
+    children: keywordFilter ? [keywordFilter] : undefined
+  } : undefined;
+
+  // 构建排序条件
+  const sort = [
+    {
+      field_name: params.sort_field || 'create_time',
+      desc: params.sort_desc !== undefined ? params.sort_desc : true
+    }
+  ];
+
+  const searchData = {
+    filter,
+    sort
+  };
+
+  try {
+    const result = await client.bitable.v1.appTableRecord.search({
+      params: searchParams,
+      path: {
+        app_token: app_token,
+        table_id: table_id,
+      },
+      data: searchData
+    }) as FeishuPromptResponseType;
+
+    if (!result?.data?.items) {
+      console.error('get prompts data failed');
+      console.error(result);
+      return null;
+    }
+
+    // 转换数据格式为prompts
+    const prompts = result.data.items.map(item => {
+      const fields = item.fields;
+      return {
+        id: item.record_id,
+        prompt_id: fields.prompt_id.value?.[0]?.text || '',
+        category: fields.category || [],
+        tag: fields.tag || [],
+        model: fields.model || [],
+        title: fields.title?.[0]?.text || '',
+        prompt: fields.prompt?.[0]?.text || '',
+        author: fields.author || '',
+        slug: fields.slug?.[0]?.text || '',
+        test_result: fields.test_result?.[0]?.text || '',
+        test_result_img: fields.test_result_img?.[0]?.url || '',
+        create_time: fields.create_time ? String(fields.create_time) : '',
+        update_time: fields.update_time ? String(fields.update_time) : '',
+        feature: fields.feature || '否'
+      } as PromptType;
+    });
+
+    return prompts;
+  } catch (error) {
+    console.error('处理飞书提示词数据失败:', error);
+    return null;
+  }
+}
+
+// 根据slug获取prompt
+export async function getPromptBySlug(slug: string): Promise<PromptType | null> {
+  const prompts = await getPromptByParams({ slug });
+  return prompts && prompts.length > 0 ? prompts[0] : null;
+}
+
+// 根据prompt_id获取prompt
+export async function getPromptById(promptId: string): Promise<PromptType | null> {
+  const prompts = await getPromptByParams({ prompt_id: promptId });
+  return prompts && prompts.length > 0 ? prompts[0] : null;
+}
+
+// 根据分类获取prompts
+export async function getPromptsByCategory(category: string): Promise<PromptType[] | null> {
+  return getPromptByParams({ category: [category] });
+}
+
+// 根据标签获取prompts
+export async function getPromptsByTag(tag: string): Promise<PromptType[] | null> {
+  return getPromptByParams({ tag: [tag] });
+}
+
+// 根据模型获取prompts
+export async function getPromptsByModel(model: string): Promise<PromptType[] | null> {
+  return getPromptByParams({ model: [model] });
+}
+
+// 根据关键词搜索prompts
+export async function searchPrompts(keyword: string): Promise<PromptType[] | null> {
+  return getPromptByParams({ keyword });
+}
 
 // 从飞书读取 category 数据
 // https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tbl4EyVxYOhuJt8x&view=vewEBIpUHH
 export async function getCategories(): Promise<CategoryType[] | null> {
+  const app_token = process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '';
+  const table_id = process.env.NEXT_PUBLIC_FEISHU_CATEGORY_TABLE_ID || '';
+
+  if (!app_token || !table_id) {
+    console.error('app_token or table_id is not set');
+    return null;
+  }
+
+  const searchParams = {
+    page_size: 500,
+  }
+  const searchData = {
+    "sort": [
+      {
+        "field_name": "priority",
+        "desc": true
+      }
+    ],
+  }
+
   try {
-    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_CATEGORY_TABLE_ID || '');
+    const result = await client.bitable.v1.appTableRecord.search({
+      params: searchParams,
+      path: {
+        app_token: app_token,
+        table_id: table_id,
+      },
+      data: searchData
+    }) as FeishuCategoryResponseType;
+    
     if (!result?.data?.items) {
-      console.error('无法获取飞书数据或数据格式不正确');
+      console.error('get categories data failed');
+      console.error(result);
       return null;
     }
 
@@ -41,9 +292,10 @@ export async function getCategories(): Promise<CategoryType[] | null> {
       const fields = item.fields;
       return {
         id: item.record_id,
-        category_id: fields.category_id || '',
+        category_id: fields.category_id.value?.[0]?.text || '',
         category: fields.category || '',
-        slug: fields.slug || '',
+        slug: fields.slug?.[0]?.text || '',
+        priority: fields.priority || 1,
       } as CategoryType;
     });
 
@@ -57,11 +309,39 @@ export async function getCategories(): Promise<CategoryType[] | null> {
 // 从飞书读取 tag 数据
 // https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblBiTB4ITtjZBxQ&view=vewEBIpUHH
 export async function getTags(): Promise<TagType[] | null> {
+  const app_token = process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '';
+  const table_id = process.env.NEXT_PUBLIC_FEISHU_TAG_TABLE_ID || '';
+
+  if (!app_token || !table_id) {
+    console.error('app_token or table_id is not set');
+    return null;
+  }
+
+  const searchParams = {
+    page_size: 500,
+  }
+  const searchData = {
+    "sort": [
+      {
+        "field_name": "priority",
+        "desc": true
+      }
+    ],
+  }
+
   try {
-    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_TAG_TABLE_ID || '');
-    console.log(result);
+    const result = await client.bitable.v1.appTableRecord.search({
+      params: searchParams,
+      path: {
+        app_token: app_token,
+        table_id: table_id,
+      },
+      data: searchData
+    }) as FeishuTagResponseType;
+    
     if (!result?.data?.items) {
-      console.error('无法获取飞书数据或数据格式不正确');
+      console.error('get tag data failed');
+      console.error(result);
       return null;
     }
 
@@ -70,9 +350,10 @@ export async function getTags(): Promise<TagType[] | null> {
       const fields = item.fields;
       return {
         id: item.record_id,
-        tag_id: fields.tag_id || '',
+        tag_id: fields.tag_id.value?.[0]?.text || '',
         tag: fields.tag || '',
-        slug: fields.slug || '',
+        slug: fields.slug?.[0]?.text || '',
+        priority: fields.priority || 1,
       } as TagType;
     });
 
@@ -83,24 +364,54 @@ export async function getTags(): Promise<TagType[] | null> {
   }
 }
 
-// 从飞书读取 model 数据
+// 从飞书读取 models 数据
 // https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblJvCthQSdUACEf&view=vewEBIpUHH
 export async function getModels(): Promise<ModelType[] | null> {
+  const app_token = process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '';
+  const table_id = process.env.NEXT_PUBLIC_FEISHU_MODEL_TABLE_ID || '';
+
+  if (!app_token || !table_id) {
+    console.error('app_token or table_id is not set');
+    return null;
+  }
+
+  const searchParams = {
+    page_size: 500,
+  }
+  const searchData = {
+    "sort": [
+      {
+        "field_name": "priority",
+        "desc": true
+      }
+    ],
+  }
+
   try {
-    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_MODEL_TABLE_ID || '');
+    const result = await client.bitable.v1.appTableRecord.search({
+      params: searchParams,
+      path: {
+        app_token: app_token,
+        table_id: table_id,
+      },
+      data: searchData
+    }) as FeishuModelResponseType;
+    
     if (!result?.data?.items) {
-      console.error('无法获取飞书数据或数据格式不正确');
+      console.error('get model data failed');
+      console.error(result);
       return null;
     }
 
-    // 转换数据格式为models
+    // 转换数据格式为categories
     const models = result.data.items.map(item => {
       const fields = item.fields;
       return {
         id: item.record_id,
-        model_id: fields.model_id || '',
+        model_id: fields.model_id.value?.[0]?.text || '',
         model: fields.model || '',
-        slug: fields.slug || '',
+        slug: fields.slug?.[0]?.text || '',
+        priority: fields.priority || 1,
       } as ModelType;
     });
 
@@ -110,62 +421,6 @@ export async function getModels(): Promise<ModelType[] | null> {
     return null;
   }
 }
-
-// 从飞书读取prompt
-// https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblEv0PjREXSDuSu&view=vewEBIpUHH
-export async function getLatestPrompts(): Promise<PromptType[] | null> {
-  try {
-    const result = await exportTable(process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '', process.env.NEXT_PUBLIC_FEISHU_PROMPT_TABLE_ID || '');
-    if (!result?.data?.items) {
-      console.error('无法获取飞书工具数据或数据格式不正确');
-      return null;
-    }
-
-    // 转换数据格式为prompts
-    const prompts = result.data.items.map(item => {
-      const fields = item.fields;
-      return {
-        prompt_id: item.record_id,
-        category: fields.category || [],
-        tag: fields.tag || [],
-        model: fields.model || [],
-        title: fields.title || '',
-        prompt: fields.prompt || '',
-        author: fields.author || '',
-        test_result: fields.test_result || '',
-        test_result_img: fields.test_result_img || '',
-        create_time: fields.create_time || '',
-        update_time: fields.update_time || '',
-        slug: fields.slug || '',
-      } as PromptType;
-    });
-
-    return prompts;
-  } catch (error) {
-    console.error('处理飞书工具数据失败:', error);
-    return null;
-  }
-}
-
-// 从飞书读取表格数据
-async function exportTable(app_token: string, table_id: string): Promise<FeishuResponse | null> {
-  try {
-    const res = await client.bitable.appTableRecord.list({
-      path: {
-        app_token: app_token,
-        table_id: table_id,
-      },
-      params: {
-        page_size: 500,
-      },
-    });
-    return res as FeishuResponse;
-  } catch (error) {
-    console.error('导出飞书表格失败:', error);
-    return null;
-  }
-}
-
 
 
 

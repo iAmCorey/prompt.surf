@@ -5,7 +5,9 @@
     "meta_keywords": "ai prompts, chatgpt prompts, prompt engineering, llm prompts",
     "h1": "Awesome Prompts for every AI model",
     "h2": "Explore Prompts for ChatGPT, Claude, Gemini, and every AI model",
-    "description": "Discover Essential AI Prompts for Your AI Applications and Use Cases"
+    "description": "Discover Essential AI Prompts for Your AI Applications and Use Cases",
+    "featured_prompts": "Featured Prompts",
+    "latest_prompts": "Latest Prompts"
   },
   "category": {
     "meta_title": "Category",
@@ -80,9 +82,9 @@
     "support": "Support",
     "copyright": "All rights reserved."
   },
-  "toolsList": {
+  "promptList": {
     "more": "More",
-    "tools": "prompts"
+    "prompts": "prompts"
   },
   "articleList": {
     "h2": "Articles",

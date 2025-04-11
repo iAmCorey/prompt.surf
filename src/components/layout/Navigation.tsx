@@ -30,7 +30,7 @@ type NavigationProps = {
 }
 
 
-export const Navigation = ({ categories, tags, models }: NavigationProps ) => {
+export const Navigation = ({ categories, models }: NavigationProps ) => {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('navigation');
@@ -85,12 +85,12 @@ export const Navigation = ({ categories, tags, models }: NavigationProps ) => {
           <a
             ref={ref}
             className={cn(
-              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              "block select-none space-y-2 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               className
             )}
             {...props}
           >
-            <div className="text-sm font-medium leading-none">{title}</div>
+            <div className="text-sm font-semibold leading-none">{title}</div>
             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
               {children}
             </p>
@@ -104,7 +104,7 @@ export const Navigation = ({ categories, tags, models }: NavigationProps ) => {
 const ModelItem = React.forwardRef<
   React.ElementRef<"a">,
   React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+>(({ className, title, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -132,15 +132,16 @@ ModelItem.displayName = "ModelItem"
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-1">
             <Image
               src={IconImage}
-              className="block"
+              className="block mr-1"
               width={size}
               height={size}
               alt="DomainScore"
             />
-            <span className="inline-block font-bold">Dev Toolset</span>
+            <span className="inline-block font-bold text-xl bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">Prompt</span>
+            <span className="inline-block font-semibold text-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-md py-[0.5px] px-2">.surf</span>
           </Link>
           <nav className="hidden md:flex gap-6">
             <NavigationMenu>
@@ -156,7 +157,7 @@ ModelItem.displayName = "ModelItem"
                   <NavigationMenuItem>
                     <NavigationMenuTrigger className={cn('font-medium', '/category' === pathname && "font-extrabold")}>{t('categoryBtn')}</NavigationMenuTrigger>
                     <NavigationMenuContent>
-                      <ul className="grid grid-cols-1 w-[250px] md:w-[400px] gap-3 p-4 md:grid-cols-2">
+                      <ul className="grid grid-cols-1 w-[250px] md:w-[400px] gap-2 p-4 md:grid-cols-2">
                         {categories.map((category) => (
                           <ListItem
                             key={category.category_id}
@@ -164,7 +165,7 @@ ModelItem.displayName = "ModelItem"
                             href={`/category/${category.category_id}`}
                             className='capitalize'
                           >
-                            {category.category}
+                            {category.slug}
                           </ListItem>
                         ))}
                         <ListItem
@@ -173,32 +174,6 @@ ModelItem.displayName = "ModelItem"
                           className='capitalize border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'
                         >
                           {t('moreCategoryDescription')}
-                        </ListItem>
-                      </ul>
-                      </NavigationMenuContent>
-                  </NavigationMenuItem>
-                )}
-                {tags && tags.length > 0 && (
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger className={cn('font-medium', '/tag' === pathname && "font-extrabold")}>{t('tagBtn')}</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid grid-cols-1 w-[250px] md:w-[400px] gap-3 p-4 md:grid-cols-2">
-                        {tags.map((tag) => (
-                          <ListItem
-                            key={tag.tag_id}
-                            title={tag.tag}
-                            href={`/tag/${tag.tag_id}`}
-                            className='capitalize'
-                          >
-                            {tag.tag}
-                          </ListItem>
-                        ))}
-                        <ListItem
-                          title={t('moreTagBtn')}
-                          href={'/tag'}
-                          className='capitalize border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'
-                        >
-                          {t('moreTagDescription')}
                         </ListItem>
                       </ul>
                       </NavigationMenuContent>
@@ -229,6 +204,13 @@ ModelItem.displayName = "ModelItem"
                   </NavigationMenuItem>
                 )}
                 <NavigationMenuItem>
+                  <Link href="/tag" legacyBehavior passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'font-medium', '/changelog' === pathname && "font-extrabold")}>
+                      {t('tagBtn')}
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                   <NavigationMenuTrigger className={cn('font-medium', '/article' === pathname && "font-extrabold")}>
                     {t('articleBtn')}
                   </NavigationMenuTrigger>
@@ -241,7 +223,7 @@ ModelItem.displayName = "ModelItem"
                             href="/"
                           >
                             <div className="mb-2 mt-4 text-lg font-medium">
-                              Dev Toolset
+                              Prompt.surf
                             </div>
                             <p className="text-xs leading-tight text-muted-foreground">
                               {t('articleDescription')}

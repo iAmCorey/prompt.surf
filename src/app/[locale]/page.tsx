@@ -2,12 +2,12 @@
 import React, { Suspense } from 'react'; // 确保导入 React
 import { getSortedPostsData } from '@/lib/posts'
 
-import { PromptList } from '@/components/prompt/PromptList';
+import { FeaturedPromptList, PromptList } from '@/components/prompt/PromptList';
 import { ArticleList } from '@/components/ArticleList'
 
 import { Search } from '@/components/home/Search';
 import { getTranslations, getLocale } from 'next-intl/server';
-import { getLatestPrompts, getCategories } from '@/lib/data';
+import { getLatestPrompts, getCategories, getFeaturedPrompts } from '@/lib/data';
 
 
 export async function generateMetadata() {
@@ -25,7 +25,7 @@ export default async function Home() {
 
   // categories data
   const categories = await getCategories();
-  console.log('categories: ', categories)
+  console.log('categories: ', categories?.length)
 
   const allPostsData = getSortedPostsData().slice(0, 6)
 
@@ -33,6 +33,11 @@ export default async function Home() {
   const promptsData = await getLatestPrompts();
   if (promptsData) {
     console.log('promptsData: ', promptsData.length)
+  }
+
+  const featuredPromptsData = await getFeaturedPrompts();
+  if (featuredPromptsData) {
+    console.log('featuredPromptsData: ', featuredPromptsData.length)
   }
 
 
@@ -48,9 +53,15 @@ export default async function Home() {
         </div> */}
       </section>
 
+      {featuredPromptsData && featuredPromptsData.length > 0 && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <FeaturedPromptList title={t("featured_prompts")} prompts={featuredPromptsData} />
+        </Suspense>
+      )}
+
       {promptsData && promptsData.length > 0 && (
         <Suspense fallback={<div>Loading...</div>}>
-          <PromptList prompts={promptsData} />
+          <PromptList title={t("latest_prompts")} prompts={promptsData} />
         </Suspense>
       )}
       <div className='border-t'></div>

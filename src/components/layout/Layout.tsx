@@ -10,9 +10,9 @@ export async function Layout({ children }: { children: React.ReactNode }) {
   const tags = await getTags();
   const models = await getModels();
 
-  console.log('categories: ', categories)
-  console.log('tags: ', tags)
-  console.log('models: ', models)
+  console.log('categories: ', categories?.length)
+  console.log('tags: ', tags?.length)
+  console.log('models: ', models?.length)
 
   return (
     <div className="min-h-screen bg-background font-sans antialiased">
