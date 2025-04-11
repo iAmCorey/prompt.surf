@@ -7,7 +7,8 @@
     "h2": "Explore Prompts for ChatGPT, Claude, Gemini, and every AI model",
     "description": "Discover Essential AI Prompts for Your AI Applications and Use Cases",
     "featured_prompts": "Featured Prompts",
-    "latest_prompts": "Latest Prompts"
+    "latest_prompts": "Latest Prompts",
+    "loading": "Loading..."
   },
   "category": {
     "meta_title": "Category",
@@ -42,8 +43,8 @@
     "homeBtn": "Home"
   },
   "search": {
-    "input_placeholder": "Search prompts by name / tags...",
-    "heading": "Suggestions",
+    "input_placeholder": "Search prompts by category / tag / model...",
+    "heading": "Examples",
     "more": "More",
     "button": "Search"
   },

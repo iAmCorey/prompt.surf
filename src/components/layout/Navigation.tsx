@@ -17,12 +17,15 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { ThemeModeButton } from "@/components/ThemeModeButton";
-import { LocaleButton } from "@/components/LocaleButton";
+import { ThemeModeButton } from "@/components/shared/ThemeModeButton";
+import { LocaleButton } from "@/components/shared/LocaleButton";
 import {useTranslations} from 'next-intl';
 import { CategoryType, ModelType, TagType } from '@/lib/types';
 import { NAVIGATION_MODEL_COUNT } from '@/lib/const';
 import { CustomIcon } from '../shared/CustomIcon';
+import { appConfig } from '@/lib/appConfig';
+import { RainbowButton } from "@/components/magicui/rainbow-button";
+
 type NavigationProps = {
   categories: CategoryType[] | null,
   tags: TagType[] | null,
@@ -138,7 +141,7 @@ ModelItem.displayName = "ModelItem"
               className="block mr-1"
               width={size}
               height={size}
-              alt="DomainScore"
+              alt="Prompt.surf"
             />
             <span className="inline-block font-bold text-xl bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">Prompt</span>
             <span className="inline-block font-semibold text-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-md py-[0.5px] px-2">.surf</span>
@@ -211,42 +214,9 @@ ModelItem.displayName = "ModelItem"
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className={cn('font-medium', '/article' === pathname && "font-extrabold")}>
-                    {t('articleBtn')}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                      <li className="row-span-3">
-                        <NavigationMenuLink asChild>
-                          <a
-                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                            href="/"
-                          >
-                            <div className="mb-2 mt-4 text-lg font-medium">
-                              Prompt.surf
-                            </div>
-                            <p className="text-xs leading-tight text-muted-foreground">
-                              {t('articleDescription')}
-                            </p>
-                          </a>
-                        </NavigationMenuLink>
-                      </li>
-                      <ListItem href="/article/add-new-developer-tools" title="Add Tools">
-                        {t('article1Title')}
-                      </ListItem>
-                      <ListItem href="/article/deploy-own-devtoolset" title="Deploy DevToolset">
-                        {t('article2Title')}
-                      </ListItem>
-                      <ListItem href="/article" title={t('moreArticleBtn')} className='border border-muted  bg-gradient-to-b  from-muted/50 to-muted/20'>
-                        {t('moreArticleDescription')}
-                      </ListItem>
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/changelog" legacyBehavior passHref>
-                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'font-medium', '/changelog' === pathname && "font-extrabold")}>
-                      {t('changelogBtn')}
+                  <Link href="/article" legacyBehavior passHref>
+                    <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'font-medium', '/article' === pathname && "font-extrabold")}>
+                      {t('articleBtn')}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -256,7 +226,7 @@ ModelItem.displayName = "ModelItem"
         </div>
         <div className="flex items-center gap-3">
           <Link href="/article/add-new-developer-tools" className='hidden md:block'>
-            <Button variant="outline" className='text-sm tracking-tight'>{t('submitToolBtn')}</Button>
+            <RainbowButton className='h-10 text-sm'>{t('submitToolBtn')}</RainbowButton>
           </Link>
           <div className="flex items-center gap-1">
             <ThemeModeButton />
@@ -264,7 +234,7 @@ ModelItem.displayName = "ModelItem"
             
           </div>
           <Link
-            href={"https://github.com/iAmCorey/devtoolset"}
+            href={appConfig.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-foreground ml-1"

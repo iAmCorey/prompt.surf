@@ -28,18 +28,18 @@ const client = new Client({
 });
 
 
-export async function getLatestPrompts(): Promise<PromptType[] | null> {
+export async function getLatestPrompts(count?: number): Promise<PromptType[] | null> {
   return getPromptByParams({
-    page_size: 500,
+    page_size: count || 500,
     sort_field: 'create_time',
     sort_desc: true
   });
 }
 
-export async function getFeaturedPrompts(): Promise<PromptType[] | null> {
+export async function getFeaturedPrompts(count?: number): Promise<PromptType[] | null> {
   return getPromptByParams({
     feature: "是",
-    page_size: 500,
+    page_size: count || 500,
     sort_field: 'create_time',
     sort_desc: true
   });
@@ -229,8 +229,8 @@ export async function getPromptById(promptId: string): Promise<PromptType | null
 }
 
 // 根据分类获取prompts
-export async function getPromptsByCategory(category: string): Promise<PromptType[] | null> {
-  return getPromptByParams({ category: [category] });
+export async function getPromptsByCategory(category: string, count?: number): Promise<PromptType[] | null> {
+  return getPromptByParams({ category: [category], page_size: count || 500 });
 }
 
 // 根据标签获取prompts

@@ -1,51 +1,54 @@
 {
   "home": {
-    "meta_title": "DevToolset: 开源、无数据库架构的开发者工具资源导航平台",
-    "meta_description": "在这里找到您在开发旅程中需要的每一种开发者工具",
-    "h2": "开源、无数据库架构的开发者工具资源导航平台",
-    "description": "在这里找到您在开发旅程中需要的每一种开发者工具",
+    "meta_title": "Prompt.surf: 开源AI提示词库",
+    "meta_description": "发现各种模型和应用的必备AI提示词",
+    "meta_keywords": "ai提示词, chatgpt提示词, 提示词工程, llm提示词",
+    "h1": "精选AI提示词宝库",
+    "h2": "探索适用于ChatGPT、Claude、Gemini等各种AI模型的优秀提示词",
+    "description": "为您的AI应用和使用场景发现必备的AI提示词",
     "featured_prompts": "精选提示词",
-    "latest_prompts": "最新提示词"
+    "latest_prompts": "最新提示词",
+    "loading": "加载中..."
   },
   "category": {
     "meta_title": "分类",
-    "meta_description": "在这里找到您在开发旅程中需要的每一种开发者工具",
+    "meta_description": "找到您项目所需的必备AI提示词",
     "homeBtn": "首页",
     "categoryBtn": "分类",
-    "h1": "开发工具分类",
-    "h2": "在这里找到您在开发旅程中需要的每一种开发者工具",
-    "h2description": "所有开发者工具按字母顺序排列"
+    "h1": "AI提示词分类",
+    "h2": "在这里找到您需要的所有AI提示词",
+    "h2description": "所有AI提示词按字母顺序排序"
   },
   "article": {
     "meta_title": "文章",
-    "meta_description": "阅读文章，了解最新的开发者工具以及开发经验、技巧和最佳实践",
+    "meta_description": "阅读我们关于有效AI提示词和最佳实践的最新文章",
+    "h1": "文章",
+    "h2": "了解更多关于Prompt.surf的信息",
     "homeBtn": "首页",
     "articleBtn": "文章",
-    "h1": "文章",
-    "h2": "阅读更多有关DevToolset的文章",
     "backToArticles": "返回文章列表"
   },
   "changelog": {
     "meta_title": "更新日志",
-    "meta_description": "查看DevToolset的更新日志",
+    "meta_description": "了解Prompt.surf的最新更新",
     "h1": "更新日志",
-    "h2": "查看DevToolset的更新日志",
+    "h2": "了解Prompt.surf的最新更新",
     "homeBtn": "首页",
     "changelogBtn": "更新日志"
   },
   "tools": {
-    "meta_description": "Find Every Essential Developer Tools You Need For Your Development Journey",
-    "h2_1": "所有与 ",
-    "h2_2": " 相关的开发者工具",
+    "meta_description": "找到您项目所需的必备AI提示词",
+    "h2_1": "所有与",
+    "h2_2": "相关的AI提示词",
     "homeBtn": "首页"
   },
   "search": {
-    "input_placeholder": "输入名词、关键词等搜索相关工具",
-    "heading": "建议",
+    "input_placeholder": "按分类/标签/模型等搜索提示词...",
+    "heading": "样例",
     "more": "更多",
     "button": "搜索"
   },
-  "navigation": { 
+  "navigation": {
     "homeBtn": "首页",
     "categoryBtn": "分类",
     "tagBtn": "标签",
@@ -57,18 +60,18 @@
     "moreModelBtn": "更多",
     "moreModelDescription": "更多模型",
     "articleBtn": "文章",
-    "articleDescription": "开源、无数据库架构的开发者工具资源导航平台",
-    "article1Title": "添加新的开发者工具到DevToolset",
-    "article2Title": "部署你自己的DevToolset",
+    "articleDescription": "开源AI提示词集合",
+    "article1Title": "向Prompt.surf添加新提示词",
+    "article2Title": "部署您自己的Prompt.surf",
     "moreArticleBtn": "更多",
     "moreArticleDescription": "更多文章",
     "changelogBtn": "更新日志",
-    "submitToolBtn": "提交工具"
+    "submitToolBtn": "提交提示词"
   },
-  "footer": { 
-    "description": "开源、无数据库架构的开发者工具资源导航平台",
-    "builtWith": "基于",
-    "quickLinks": "快速链接",
+  "footer": {
+    "description": "探索适用于ChatGPT、Claude、Gemini等各种AI模型的优秀提示词",
+    "builtWith": "构建于",
+    "quickLinks": "链接",
     "home": "首页",
     "category": "分类",
     "article": "文章",

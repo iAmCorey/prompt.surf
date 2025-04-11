@@ -7,8 +7,8 @@ export const appConfig = {
   keywords: "prompt, ai, chat",
   i18n: {
     // locales: ["en", "de", "es"] as const,
-    locales: ["en", "zh"] as const,
-    defaultLocale: "en" as const,
+    locales: ["zh", "en"] as const,
+    defaultLocale: "zh" as const,
     localeLabels: {
       en: "English",
       zh: "简体中文",
@@ -27,5 +27,6 @@ export const appConfig = {
   auth: {
     oAuthProviders: ["google", "github"],
   },
+  githubUrl: "https://github.com/iAmCorey/prompt.surf",
 };
 

@@ -1,7 +1,7 @@
 // components/Layout.tsx
 import React from 'react'; // 确保导入 React
 import { Navigation } from './Navigation'
-import { Footer } from '@/components/Footer'
+import { Footer } from '@/components/layout/Footer'
 import { getCategories, getTags, getModels } from '@/lib/data';
 
 export async function Layout({ children }: { children: React.ReactNode }) {
