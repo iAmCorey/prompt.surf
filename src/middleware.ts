@@ -1,4 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, 
+  // NextResponse
+ } from 'next/server';
 import { verifyToken } from './lib/auth';
 import createMiddleware from 'next-intl/middleware';
 import { appConfig } from "./lib/appConfig";

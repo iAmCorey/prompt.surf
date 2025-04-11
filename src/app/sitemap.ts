@@ -1,47 +1,32 @@
-import type { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
+import { appConfig } from "@/lib/appConfig"
+
+const baseUrl = appConfig.domain;
+const locales = Object.values(appConfig.i18n.locales);
+const defaultLocale = appConfig.i18n.defaultLocale;
+
+const staticMarketingPages = [
+	"",
+	"/explore",
+	"/search",
+  "/model",
+  "/category",
+  "/tag",
+  "/prompt",
+  "/article",
+  "/changelog",
+]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const sitemapRoutes: MetadataRoute.Sitemap = [
-    {
-      url: '', // home
+  console.log("sitemap start");
+  const sitemapList: MetadataRoute.Sitemap = []; // final result
+  sitemapList.push(...staticMarketingPages.flatMap((page) =>
+    locales.map((locale) => ({
+      url: new URL(`${locale === defaultLocale ? "" : `/${locale}`}${page}`, baseUrl).href,
       lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-    {
-        url: 'tools', // tools
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 0.9,
-      },
-    {
-      url: 'category', // category
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-        url: 'article', // article
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 0.8,
-      },
-      {
-        url: 'changelog', // changelog
-        lastModified: new Date(),
-        changeFrequency: 'daily',
-        priority: 0.7,
-      },
-  ];
+    }))
+  ));
 
-  const sitemapData = sitemapRoutes.flatMap((route) => {
-    const routeUrl = route.url === '' ? '' : `/${route.url}`;
-    return {
-        ...route,
-        url: `https://DevToolset.net${routeUrl}`,
-      };
-    }
-  );
-
-  return sitemapData;
+  console.log("sitemap end, size:", sitemapList.length);
+	return sitemapList;
 }
