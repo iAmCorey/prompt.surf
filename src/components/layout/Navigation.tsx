@@ -28,7 +28,6 @@ import { RainbowButton } from "@/components/magicui/rainbow-button";
 
 type NavigationProps = {
   categories: CategoryType[] | null,
-  tags: TagType[] | null,
   models: ModelType[] | null,
 }
 
