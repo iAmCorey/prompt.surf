@@ -239,8 +239,8 @@ export async function getPromptsByTag(tag: string): Promise<PromptType[] | null>
 }
 
 // 根据模型获取prompts
-export async function getPromptsByModel(model: string): Promise<PromptType[] | null> {
-  return getPromptByParams({ model: [model] });
+export async function getPromptsByModel(model: string, count?: number): Promise<PromptType[] | null> {
+  return getPromptByParams({ model: [model], page_size: count || 500 });
 }
 
 // 根据关键词搜索prompts
@@ -423,7 +423,14 @@ export async function getTags(): Promise<TagType[] | null> {
 
 // 从飞书读取 models 数据
 // https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?table=tblJvCthQSdUACEf&view=vewEBIpUHH
-export async function getModels(): Promise<ModelType[] | null> {
+export async function getModels(params: {
+  slug?: string;
+  model_id?: string;
+  page_size?: number;
+  page_token?: string;
+  sort_field?: string;
+  sort_desc?: boolean;
+}): Promise<ModelType[] | null> {
   const app_token = process.env.NEXT_PUBLIC_FEISHU_APP_TOKEN || '';
   const table_id = process.env.NEXT_PUBLIC_FEISHU_MODEL_TABLE_ID || '';
 
@@ -433,16 +440,56 @@ export async function getModels(): Promise<ModelType[] | null> {
   }
 
   const searchParams = {
-    page_size: 500,
+    page_size: params?.page_size || 500,
+    page_token: params?.page_token,
   }
+
+  interface FilterCondition {
+    field_name: string;
+    operator: "contains" | "is" | "isNot" | "doesNotContain" | "isEmpty" | "isNotEmpty" | "isGreater" | "isGreaterEqual" | "isLess" | "isLessEqual" | "like" | "in";
+    value?: string[];
+  }
+
+  // 构建筛选条件
+  const conditions: FilterCondition[] = [];
+
+  // 添加各种筛选条件
+  if (params?.slug) {
+    conditions.push({
+      field_name: 'slug',
+      operator: 'contains',
+      value: [params.slug]
+    });
+  }
+
+  if (params?.model_id) {
+    conditions.push({
+      field_name: 'model_id',
+      operator: 'contains',
+      value: [params?.model_id]
+    });
+  }
+
+
+  // 构建完整的filter结构
+  const filter = conditions.length > 0 ? {
+    conjunction: "and" as const,
+    conditions: conditions,
+  } : undefined;
+
+  // 构建排序条件
+  const sort = [
+    {
+      field_name: params?.sort_field || 'priority',
+      desc: params?.sort_desc !== undefined ? params?.sort_desc : true
+    }
+  ];
+
   const searchData = {
-    "sort": [
-      {
-        "field_name": "priority",
-        "desc": true
-      }
-    ],
-  }
+    filter,
+    sort
+  };
+
 
   try {
     const result = await client.bitable.v1.appTableRecord.search({
@@ -455,12 +502,12 @@ export async function getModels(): Promise<ModelType[] | null> {
     }) as FeishuModelResponseType;
     
     if (!result?.data?.items) {
-      console.error('get model data failed');
+      console.error('get models data failed');
       console.error(result);
       return null;
     }
 
-    // 转换数据格式为categories
+    // 转换数据格式为models
     const models = result.data.items.map(item => {
       const fields = item.fields;
       return {
@@ -477,6 +524,16 @@ export async function getModels(): Promise<ModelType[] | null> {
     console.error('处理飞书数据失败:', error);
     return null;
   }
+}
+
+export async function getAllModels(): Promise<ModelType[] | null> {
+  return getModels({});
+}
+
+
+export async function getModelBySlug(slug: string): Promise<ModelType | null> {
+  const models = await getModels({ slug });
+  return models && models.length > 0 ? models[0] : null;
 }
 
 

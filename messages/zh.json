@@ -19,6 +19,15 @@
     "h2": "在这里找到您需要的所有AI提示词",
     "h2description": "所有AI提示词按字母顺序排序"
   },
+  "model": {
+    "meta_title": "模型",
+    "meta_description": "找到您项目所需的必备AI提示词",
+    "homeBtn": "首页",
+    "modelBtn": "模型",
+    "h1": "适用于各类AI模型的提示词",
+    "h2": "在这里找到您需要的所有AI提示词",
+    "h2description": "所有AI提示词按字母顺序排序"
+  },
   "article": {
     "meta_title": "文章",
     "meta_description": "阅读我们关于有效AI提示词和最佳实践的最新文章",

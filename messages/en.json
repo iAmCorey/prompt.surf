@@ -19,6 +19,15 @@
     "h2": "Find Every AI Prompt You Need Here",
     "h2description": "All AI prompts are sorted alphabetically"
   },
+  "model": {
+    "meta_title": "Model",
+    "meta_description": "Find Essential AI Prompts You Need For Your Projects",
+    "homeBtn": "Home",
+    "modelBtn": "Model",
+    "h1": "AI Prompts for Every Model",
+    "h2": "Find Every AI Prompt You Need Here",
+    "h2description": "All AI prompts are sorted alphabetically"
+  },
   "article": {
     "meta_title": "Article",
     "meta_description": "Read our latest articles on effective AI prompts and best practices.",

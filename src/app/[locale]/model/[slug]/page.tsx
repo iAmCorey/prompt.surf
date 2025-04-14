@@ -1,5 +1,5 @@
 import React from 'react'; // 确保导入 React
-import { getCategoryBySlug, getPromptsByCategory } from '@/lib/data';
+import {getModelBySlug, getPromptsByModel } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
 import {
@@ -13,44 +13,43 @@ import {
 import { getTranslations, getLocale } from 'next-intl/server';
 import { CATEGORY_PAGE_PROMPT_COUNT } from '@/lib/const';
 import { PromptPageList } from '@/components/prompt/PromptPageList';
-import CustomPagination from "@/components/shared/pagination";
 
-type CategoryPageProps = {
+type ModelPageProps = {
   params: {
     slug: string;
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateMetadata({ params: { slug } }: CategoryPageProps) {
-  const t = await getTranslations('category');
+export async function generateMetadata({ params: { slug } }: ModelPageProps) {
+  const t = await getTranslations('model');
 
   function capitalize(string: string) {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   }
 
-  const categoryData = await getCategoryBySlug(slug);
-  if (!categoryData) {
+  const modelData = await getModelBySlug(slug);
+  if (!modelData) {
     return notFound();
   }
 
   return {
-    title: capitalize(categoryData.category),
+    title: capitalize(modelData.model),
     description: t('meta_description'),
   }
 }
 
 
-export default async function Tool({ params: { slug }, searchParams }: CategoryPageProps) {
+export default async function Model({ params: { slug }, searchParams }: ModelPageProps) {
   const locale = await getLocale();
-  const categoryData = await getCategoryBySlug(slug);
-  if (!categoryData) {
+  const modelData = await getModelBySlug(slug);
+  if (!modelData) {
     return notFound();
   }
 
-  const t = await getTranslations('category');
+  const t = await getTranslations('model');
 
-  const prompts = await getPromptsByCategory(categoryData.category, CATEGORY_PAGE_PROMPT_COUNT)
+  const prompts = await getPromptsByModel(modelData.model, CATEGORY_PAGE_PROMPT_COUNT)
 
   const totalPages = 1;
 
@@ -63,24 +62,24 @@ export default async function Tool({ params: { slug }, searchParams }: CategoryP
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/category">{t('categoryBtn')}</BreadcrumbLink>
+            <BreadcrumbLink href="/model">{t('modelBtn')}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className='capitalize'>{categoryData.category}</BreadcrumbPage>
+            <BreadcrumbPage className='capitalize'>{modelData.model}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex flex-col justify-between items-center mb-12">
-        <h1 className="text-3xl font-bold tracking-tight capitalize lg:text-5xl pt-10 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">{categoryData.category}</h1>
-        <h2 className="text-md mt-2 opacity-60 lg:text-xl">{categoryData.slug}</h2>
+        <h1 className="text-3xl font-bold tracking-tight capitalize lg:text-5xl pt-10 bg-gradient-to-r from-blue-500 to-purple-500 text-transparent bg-clip-text">{modelData.model}</h1>
+        <h2 className="text-md mt-2 opacity-60 lg:text-xl">{modelData.slug}</h2>
 
       </div>
 
       {prompts && prompts.length > 0 && (
         <>
           <PromptPageList
-            title={categoryData.category}
+            title={modelData.model}
             prompts={prompts}
             showMoreLink={false}
           />
