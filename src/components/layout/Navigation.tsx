@@ -206,13 +206,13 @@ ModelItem.displayName = "ModelItem"
                       </NavigationMenuContent>
                   </NavigationMenuItem>
                 )}
-                <NavigationMenuItem>
+                {/* <NavigationMenuItem>
                   <Link href="/tag" legacyBehavior passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'font-medium', '/changelog' === pathname && "font-extrabold")}>
                       {t('tagBtn')}
                     </NavigationMenuLink>
                   </Link>
-                </NavigationMenuItem>
+                </NavigationMenuItem> */}
                 <NavigationMenuItem>
                   <Link href="/article" legacyBehavior passHref>
                     <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), 'font-medium', '/article' === pathname && "font-extrabold")}>

@@ -43,13 +43,8 @@
     "h1": "Changelog",
     "h2": "Stay up to date with the latest updates in Prompt.surf",
     "homeBtn": "Home",
-    "changelogBtn": "Changelog"
-  },
-  "tools": {
-    "meta_description": "Find Essential AI Prompts You Need For Your Projects",
-    "h2_1": "All AI prompts related to",
-    "h2_2": "",
-    "homeBtn": "Home"
+    "changelogBtn": "Changelog",
+    "change1": "Website launched"
   },
   "search": {
     "input_placeholder": "Search prompts by category / tag / model...",

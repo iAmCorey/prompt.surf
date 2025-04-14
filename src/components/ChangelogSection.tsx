@@ -6,9 +6,10 @@ type ChangelogItem = {
   date: string;
   changes: string[];
 };
+
 export function ChangelogSection({ items, className }: { items: ChangelogItem[], className?: string }) {
   return (
-    <section id="更新日志" className={cn(className)}>
+    <section id="changelog" className={cn(className)}>
       <div className="w-full text-left">
         {items?.map((item, i) => (
           <div key={i}>

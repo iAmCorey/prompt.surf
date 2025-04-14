@@ -43,13 +43,8 @@
     "h1": "更新日志",
     "h2": "了解Prompt.surf的最新更新",
     "homeBtn": "首页",
-    "changelogBtn": "更新日志"
-  },
-  "tools": {
-    "meta_description": "找到您项目所需的必备AI提示词",
-    "h2_1": "所有与",
-    "h2_2": "相关的AI提示词",
-    "homeBtn": "首页"
+    "changelogBtn": "更新日志",
+    "change1": "网站上线"
   },
   "search": {
     "input_placeholder": "按分类/标签/模型等搜索提示词...",

@@ -1,9 +1,4 @@
-import fs from 'fs'
-import path from 'path'
-import * as jsonc from 'jsonc-parser';
 import { Client, AppType, Domain } from '@larksuiteoapi/node-sdk';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import {
   PromptType,
   FeishuPromptResponseType,
@@ -15,9 +10,6 @@ import {
   FeishuModelResponseType
 } from '@/lib/types';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const BASE_PATH = path.resolve(__dirname, '../../');
 
 // 飞书客户端配置
 const client = new Client({
@@ -536,13 +528,4 @@ export async function getModelBySlug(slug: string): Promise<ModelType | null> {
   return models && models.length > 0 ? models[0] : null;
 }
 
-
-
-// 读取更新日志
-export function getChangelog(): Record<string, unknown> {
-  const dataPath = path.join(BASE_PATH, 'data', 'json', 'changelog.jsonc');
-  const dataListText = fs.readFileSync(dataPath, 'utf8');
-  const dataList = jsonc.parse(dataListText) as Record<string, unknown>;
-  return dataList;
-}
 
