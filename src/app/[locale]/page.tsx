@@ -65,7 +65,7 @@ export default async function Home() {
   const { promptsData, featuredPromptsData, categoryPrompts, allPostsData } = await getHomeData();
 
   return (
-    <div className="container mx-auto py-12 space-y-16 max-w-7xl">
+    <div className="container mx-auto py-12 space-y-16 md:pb-24 max-w-7xl">
       <section className="flex flex-col items-center justify-center text-center space-y-6">
         <h1 className="mx-auto max-w-2xl text-3xl font-bold lg:text-6xl tracking-tighter">
           <span className="inline-block">{t("h1")}</span>
@@ -106,9 +106,11 @@ export default async function Home() {
 
       <div className='border-t'></div>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <ArticleList articles={allPostsData} />
-      </Suspense>
+      {allPostsData && allPostsData.length > 0 && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <ArticleList articles={allPostsData} />
+        </Suspense>
+      )}
     </div>
   )
 }
