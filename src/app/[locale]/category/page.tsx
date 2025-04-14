@@ -2,7 +2,7 @@
 import React from 'react'; // 确保导入 React
 import { getAllCategories } from '@/lib/data';
 
-import { CategoryList } from '@/components/ToolsList';
+import { CategoryList } from '@/components/category/CategoryList';
 
 import {
   Breadcrumb,
@@ -51,7 +51,9 @@ export default async function Category() {
         </h1>
         <h2 className="mx-auto max-w-[700px] opacity-60 md:text-xl">{t('h2')}</h2>
       </section>
-      <CategoryList categories={categories} />
+      {categories && categories.length > 0 && (
+        <CategoryList categories={categories} />
+      )}
     </div>
   )
 }
