@@ -47,10 +47,13 @@
     "change1": "网站上线"
   },
   "search": {
+    "meta_title": "搜索",
+    "meta_description": "按任意关键词搜索提示词",
     "input_placeholder": "按分类/标签/模型等搜索提示词...",
     "heading": "样例",
     "more": "更多",
-    "button": "搜索"
+    "button": "搜索",
+    "homeBtn": "首页"
   },
   "navigation": {
     "homeBtn": "首页",

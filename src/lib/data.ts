@@ -139,7 +139,7 @@ export async function getPromptByParams(params: {
           field_name: 'prompt',
           operator: 'contains' as const,
           value: [params.keyword]
-        }
+        },
       ]
     };
   }

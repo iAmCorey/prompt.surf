@@ -5,7 +5,7 @@ import {
   CardDescription,
 } from "@/components/ui/card"
 import { ArrowRightIcon } from "lucide-react"
-import {ModelType } from "@/lib/types"
+import { ModelType } from "@/lib/types"
 
 type ModelListProps = {
   models: ModelType[]

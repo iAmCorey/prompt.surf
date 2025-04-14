@@ -47,10 +47,13 @@
     "change1": "Website launched"
   },
   "search": {
+    "meta_title": "Search",
+    "meta_description": "Search for AI prompts by any keyword",
     "input_placeholder": "Search prompts by category / tag / model...",
     "heading": "Examples",
     "more": "More",
-    "button": "Search"
+    "button": "Search",
+    "homeBtn": "Home"
   },
   "navigation": {
     "homeBtn": "Home",
