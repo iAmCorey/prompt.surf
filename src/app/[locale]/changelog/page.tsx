@@ -30,7 +30,7 @@ export default async function ChangelogPage() {
   ]
 
   return (
-    <div className="container mx-auto py-12 space-y-16 min-h-screen">
+    <div className="container mx-auto py-12 space-y-16 min-h-screen max-w-7xl">
       <section className="text-center space-y-4">
         <Breadcrumb>
           <BreadcrumbList>

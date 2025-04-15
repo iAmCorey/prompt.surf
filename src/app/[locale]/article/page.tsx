@@ -26,7 +26,7 @@ export default function Articles() {
   const t = useTranslations('article');
 
   return (
-    <div className="container mx-auto py-12">
+    <div className="container mx-auto py-12 min-h-screen max-w-7xl">
       <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
