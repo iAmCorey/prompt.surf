@@ -3,7 +3,7 @@ import React, { Suspense } from 'react'; // 确保导入 React
 import { getSortedPostsData } from '@/lib/posts'
 
 import { FeaturedPromptList, PromptList, PromptListByCategory } from '@/components/prompt/PromptList';
-import { ArticleList } from '@/components/ArticleList'
+import { ArticleList } from '@/components/article/ArticleList'
 
 import { Search } from '@/components/home/Search';
 import { getTranslations, getLocale } from 'next-intl/server';

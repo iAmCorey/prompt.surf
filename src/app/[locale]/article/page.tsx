@@ -1,4 +1,4 @@
-import { ArticlePage } from '@/components/ArticleList'
+import { ArticlePage } from '@/components/article/ArticleList'
 import { getSortedPostsData } from '@/lib/posts';
 
 import {
@@ -9,8 +9,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import {getTranslations} from 'next-intl/server';
-import {useTranslations} from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 
 export async function generateMetadata() {
   const t = await getTranslations('article');

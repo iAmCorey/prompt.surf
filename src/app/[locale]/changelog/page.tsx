@@ -1,5 +1,5 @@
 import React from 'react'; // 确保导入 React
-import { ChangelogSection } from '@/components/ChangelogSection';
+import { ChangelogSection } from '@/components/changelog/ChangelogSection';
 
 import {
   Breadcrumb,
