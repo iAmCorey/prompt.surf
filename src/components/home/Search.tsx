@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button"
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from 'next-intl';
+import { ImagePlus, FlameIcon } from "lucide-react"
 
 export function Search({ className }: { className?: string }) {
   const [search, setSearch] = useState('');
@@ -30,13 +31,13 @@ export function Search({ className }: { className?: string }) {
         <CommandInput placeholder={t('input_placeholder')} value={search} onValueChange={setSearch} />
         <CommandList>
           <CommandGroup>
-            <CommandItem onSelect={() => window.location.href = '/search/ai'}>
-              <LightningBoltIcon className="mr-2 h-4 w-4" />
-              <span>AI</span>
+            <CommandItem onSelect={() => window.location.href = '/search/海报'}>
+              <ImagePlus className="mr-2 h-4 w-4" />
+              <span>海报</span>
             </CommandItem>
-            <CommandItem onSelect={() => window.location.href = '/search/seo'}>
-              <GlobeIcon className="mr-2 h-4 w-4" />
-              <span>SEO</span>
+            <CommandItem onSelect={() => window.location.href = '/search/宣传'}>
+              <FlameIcon className="mr-2 h-4 w-4" />
+              <span>宣传</span>
             </CommandItem>
             <CommandItem disabled>
               <DotsHorizontalIcon className="mr-2 h-4 w-4" />

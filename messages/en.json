@@ -49,7 +49,7 @@
   "search": {
     "meta_title": "Search",
     "meta_description": "Search for AI prompts by any keyword",
-    "input_placeholder": "Search prompts by category / tag / model...",
+    "input_placeholder": "Search for AI prompts by any keyword",
     "heading": "Examples",
     "more": "More",
     "button": "Search",
