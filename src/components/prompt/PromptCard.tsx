@@ -18,7 +18,6 @@ export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
         <div className="flex flex-row justify-between items-center">
           {prompt.model && (
             <div className="flex flex-row items-center gap-1">
-              
               <Badge variant="secondary" className='rounded-sm text-sm px-1 bg-transparent hover:bg-muted text-muted-foreground transition-colors gap-1'>
               <CustomIcon name={prompt.model[0] || ''} />
                 {prompt.model[0]}
@@ -67,7 +66,7 @@ export const FeaturedPromptCard = ({ prompt }: { prompt: PromptType }) => {
   return (
     <Card className={
       cn('max-w-sm overflow-hidden border rounded-xl flex flex-col',
-      prompt.feature === '是' ? 'border-orange-400 bg-orange-50 dark:bg-foreground/10' : 'border-gray-100'
+      prompt.feature === '是' ? 'border-orange-400 dark:bg-foreground/10' : 'border-gray-100'
       )}>
       <div className='px-4 pt-4 pb-2 relative flex-none'>
         <div className="flex flex-row justify-between items-center">
@@ -88,7 +87,7 @@ export const FeaturedPromptCard = ({ prompt }: { prompt: PromptType }) => {
       </div>
 
       <div className='px-4 flex-grow overflow-hidden'>
-        <div className={cn('p-3 bg-background text-muted-foreground hover:text-foreground transition-all duration-100 rounded-lg h-[100px] mb-3',
+        <div className={cn('p-3 bg-muted/50 dark:bg-background text-muted-foreground hover:text-foreground transition-all duration-100 rounded-lg h-[100px] mb-3',
         )}>
           <p className='text-xs line-clamp-4 leading-normal'>{prompt.prompt}</p>
         </div>
