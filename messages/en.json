@@ -1,41 +1,54 @@
 {
   "home": {
-    "meta_title": "Prompt.surf: Open-Source AI Prompt Library",
-    "meta_description": "Discover Essential AI Prompts for Various Use Cases and Applications",
+    "meta_title": "Prompt.surf: Open Source AI Prompts",
+    "meta_description": "Find the perfect AI prompts for various models and applications",
     "meta_keywords": "ai prompts, chatgpt prompts, prompt engineering, llm prompts",
-    "h1": "Awesome Prompts for every AI model",
-    "h2": "Explore Prompts for ChatGPT, Claude, Gemini, and every AI model",
-    "description": "Discover Essential AI Prompts for Your AI Applications and Use Cases",
+    "h1": "Curated AI Prompt Library",
+    "h2": "Explore essential prompts for ChatGPT, Claude, Gemini and more",
+    "description": "Discover essential AI prompts for your applications and use cases",
     "featured_prompts": "Featured Prompts",
     "latest_prompts": "Latest Prompts",
     "loading": "Loading..."
   },
   "category": {
-    "meta_title": "Category",
-    "meta_description": "Find Essential AI Prompts You Need For Your Projects",
+    "meta_title": "Categories",
+    "meta_description": "Find the AI prompts you need for your project",
     "homeBtn": "Home",
-    "categoryBtn": "Category",
-    "h1": "AI Prompts Category",
-    "h2": "Find Every AI Prompt You Need Here",
-    "h2description": "All AI prompts are sorted alphabetically"
+    "categoryBtn": "Categories",
+    "h1": "AI Prompt Categories",
+    "h2": "Find all the AI prompts you need here",
+    "h2description": "All AI prompts sorted alphabetically"
   },
   "model": {
-    "meta_title": "Model",
-    "meta_description": "Find Essential AI Prompts You Need For Your Projects",
+    "meta_title": "Models",
+    "meta_description": "Find the AI prompts you need for your project",
     "homeBtn": "Home",
-    "modelBtn": "Model",
-    "h1": "AI Prompts for Every Model",
-    "h2": "Find Every AI Prompt You Need Here",
-    "h2description": "All AI prompts are sorted alphabetically"
+    "modelBtn": "Models",
+    "h1": "Prompts for Various AI Models",
+    "h2": "Find all the AI prompts you need here",
+    "h2description": "All AI prompts sorted alphabetically"
+  },
+  "prompt": {
+    "meta_title": "Prompt Details",
+    "meta_description": "View detailed AI prompt content and examples",
+    "homeBtn": "Home",
+    "promptsBtn": "Prompts",
+    "promptNotFound": "Prompt Not Found",
+    "backToHome": "Back to Home",
+    "backToPrompts": "Back to Prompts",
+    "promptContent": "Prompt Content",
+    "exampleResult": "Example Result",
+    "resultImage": "Result Image",
+    "copyPrompt": "Copy Prompt"
   },
   "article": {
-    "meta_title": "Article",
-    "meta_description": "Read our latest articles on effective AI prompts and best practices.",
+    "meta_title": "Articles",
+    "meta_description": "Read our latest articles about effective AI prompts and best practices",
     "h1": "Articles",
-    "h2": "Read More About Prompt.surf",
+    "h2": "Learn more about Prompt.surf",
     "homeBtn": "Home",
-    "articleBtn": "Article",
-    "backToArticles": "Back to articles"
+    "articleBtn": "Articles",
+    "backToArticles": "Back to Articles"
   },
   "changelog": {
     "meta_title": "Changelog",

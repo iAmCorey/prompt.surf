@@ -28,6 +28,19 @@
     "h2": "在这里找到您需要的所有AI提示词",
     "h2description": "所有AI提示词按字母顺序排序"
   },
+  "prompt": {
+    "meta_title": "提示词详情",
+    "meta_description": "查看详细的AI提示词内容和示例",
+    "homeBtn": "首页",
+    "promptsBtn": "提示词",
+    "promptNotFound": "提示词未找到",
+    "backToHome": "返回首页",
+    "backToPrompts": "返回提示词列表",
+    "promptContent": "提示词内容",
+    "exampleResult": "示例结果",
+    "resultImage": "结果图片",
+    "copyPrompt": "复制提示词"
+  },
   "article": {
     "meta_title": "文章",
     "meta_description": "阅读我们关于有效AI提示词和最佳实践的最新文章",

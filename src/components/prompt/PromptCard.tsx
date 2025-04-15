@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
 } from "@/components/ui/card"
@@ -8,18 +8,28 @@ import { Badge } from "@/components/ui/badge";
 import { type PromptType } from '@/lib/types';
 import { CustomIcon } from "@/components/shared/CustomIcon";
 import { cn } from "@/lib/utils";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
+import { Link } from "@/lib/i18n";
 
 export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
+  const [showCopyButton, setShowCopyButton] = useState(false);
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(prompt.prompt);
+    toast.success("已复制到剪贴板");
+  };
+
   return (
-    <Card className={
-      cn('max-w-sm overflow-hidden border  rounded-xl flex flex-col',
-        )}>
+    <Card className={cn('max-w-sm overflow-hidden border rounded-xl flex flex-col')}>
       <div className='px-4 pt-4 pb-2 relative flex-none'>
         <div className="flex flex-row justify-between items-center">
           {prompt.model && (
             <div className="flex flex-row items-center gap-1">
               <Badge variant="secondary" className='rounded-sm text-sm px-1 bg-transparent hover:bg-muted text-muted-foreground transition-colors gap-1'>
-              <CustomIcon name={prompt.model[0] || ''} />
+                <CustomIcon name={prompt.model[0] || ''} />
                 {prompt.model[0]}
               </Badge>
             </div>
@@ -32,10 +42,24 @@ export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
       </div>
 
       <div className='px-4 flex-grow overflow-hidden'>
-        <div className={cn('p-3 bg-muted/50 dark:bg-background text-muted-foreground hover:text-foreground transition-all duration-100 rounded-lg h-[100px] mb-3',
-        )}>
-          <p className='text-xs line-clamp-4 leading-normal'>{prompt.prompt}</p>
-        </div>
+        <Link href={`/prompt/${prompt.slug}`}>
+          <div 
+            className={cn('p-3 bg-muted/50 dark:bg-background text-muted-foreground hover:text-foreground transition-all duration-100 rounded-lg h-[100px] mb-3 relative cursor-pointer hover:bg-muted/80 dark:hover:bg-background/80',
+            )}
+            onMouseEnter={() => setShowCopyButton(true)}
+            onMouseLeave={() => setShowCopyButton(false)}
+          >
+            <p className='text-xs line-clamp-4 leading-normal'>{prompt.prompt}</p>
+            {showCopyButton && (
+              <button 
+                onClick={handleCopy}
+                className="absolute bottom-2 right-2 p-2 text-foreground bg-background/80 dark:bg-foreground/20 rounded-md hover:bg-background/100 dark:hover:bg-foreground/30 transition-all"
+              >
+                <Copy size={18} />
+              </button>
+            )}
+          </div>
+        </Link>
       </div>
 
       <div className='px-4 pb-4 mt-auto flex flex-row justify-between items-center'>
@@ -63,6 +87,15 @@ export const PromptCard = ({ prompt }: { prompt: PromptType }) => {
 }
 
 export const FeaturedPromptCard = ({ prompt }: { prompt: PromptType }) => {
+  const [showCopyButton, setShowCopyButton] = useState(false);
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(prompt.prompt);
+    toast.success("已复制到剪贴板");
+  };
+
   return (
     <Card className={
       cn('max-w-sm overflow-hidden border rounded-xl flex flex-col',
@@ -72,7 +105,6 @@ export const FeaturedPromptCard = ({ prompt }: { prompt: PromptType }) => {
         <div className="flex flex-row justify-between items-center">
           {prompt.model && (
             <div className="flex flex-row items-center gap-1">
-              
               <Badge variant="secondary" className='rounded-sm text-sm px-1 bg-transparent hover:bg-muted text-muted-foreground transition-colors gap-1'>
                 <CustomIcon name={prompt.model[0] || ''} />
                 {prompt.model[0]}
@@ -87,10 +119,24 @@ export const FeaturedPromptCard = ({ prompt }: { prompt: PromptType }) => {
       </div>
 
       <div className='px-4 flex-grow overflow-hidden'>
-        <div className={cn('p-3 bg-muted/50 dark:bg-background text-muted-foreground hover:text-foreground transition-all duration-100 rounded-lg h-[100px] mb-3',
-        )}>
-          <p className='text-xs line-clamp-4 leading-normal'>{prompt.prompt}</p>
-        </div>
+        <Link href={`/prompt/${prompt.slug}`}>
+          <div 
+            className={cn('p-3 bg-muted/50 dark:bg-background text-muted-foreground hover:text-foreground transition-all duration-100 rounded-lg h-[100px] mb-3 relative cursor-pointer hover:bg-muted/80 dark:hover:bg-background/80',
+            )}
+            onMouseEnter={() => setShowCopyButton(true)}
+            onMouseLeave={() => setShowCopyButton(false)}
+          >
+            <p className='text-xs line-clamp-4 leading-normal'>{prompt.prompt}</p>
+            {showCopyButton && (
+              <button 
+                onClick={handleCopy}
+                className="absolute bottom-2 right-2 p-2 text-foreground bg-background/80 dark:bg-foreground/20 rounded-md hover:bg-background/100 dark:hover:bg-foreground/30 transition-all"
+              >
+                <Copy size={18} />
+              </button>
+            )}
+          </div>
+        </Link>
       </div>
 
       <div className='px-4 pb-4 mt-auto flex flex-row justify-between items-center'>

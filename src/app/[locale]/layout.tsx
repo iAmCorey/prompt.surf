@@ -11,7 +11,8 @@ import { ThemeProvider } from "next-themes"
 import { DM_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { appConfig } from '@/lib/appConfig';
-
+import { Toaster } from "@/components/ui/sonner"
+ 
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
@@ -74,6 +75,7 @@ export default async function RootLayout({
               <PlausibleAnalyticsScript />
             </ThemeProvider>
           </NextIntlClientProvider>
+          <Toaster />
         </body>
       </html>
     </>
