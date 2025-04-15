@@ -1,8 +1,12 @@
-🌍 *[English](README.md) ∙ [简体中文](README.zh.md)*
+🌍 *[English](README.en.md) ∙ [简体中文](README.zh.md)*
 
 # Prompt.surf
 
-[Prompt.surf](https://prompt.surf/) 是一个开源的 AI 提示词库
+[Prompt.surf](https://prompt.surf/) 是一个开源的 AI 提示词库，数据公开存放于飞书多维表格，使用飞书多维表格作为网站数据CMS，持续更新收录各种有意思的AI提示词
+
+
+# 词库文档
+https://dev-qiuyu.feishu.cn/base/RKJsbYoT8aXLsOs2aaBciTmOnQh?from=from_copylink
 
 
 ## 功能特点
