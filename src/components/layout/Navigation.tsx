@@ -224,7 +224,12 @@ ModelItem.displayName = "ModelItem"
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/article/add-new-developer-tools" className='hidden md:block'>
+          <Link 
+            href="https://dev-qiuyu.feishu.cn/share/base/form/shrcndbsWPPNJx6vmKgJ7KAWF1f" 
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            className='hidden md:block'
+          >
             <RainbowButton className='h-10 text-sm'>{t('submitToolBtn')}</RainbowButton>
           </Link>
           <div className="flex items-center gap-1">
